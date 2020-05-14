@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons *ngIf="edit"  slot="start">
+      <ion-back-button defaultHref="/students"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title style="text-align: center;">Datos del centro</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="formData" style="margin-bottom: 60px;">
+    <ion-grid>
+      <ion-row class="ion-align-items-center ion-text-center">
+        <ion-col>
+          <app-profile-picture class="avatar" name="picture" formControlName="picture"></app-profile-picture>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-align-items-center ion-text-center">
+        <ion-col size="1">
+          <ion-icon name="text-outline"></ion-icon>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input autocapitalize formControlName="name"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-align-items-center ion-text-center">
+        <ion-col size="1">
+          <ion-icon name="at-outline"></ion-icon>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Correo electrónico</ion-label>
+            <!-- Using emailregex.com for this input. Javascript notation -->
+            <ion-input pattern='[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+' formControlName="mail" type="email" inputmode="email" ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-align-items-center ion-text-center">
+        <ion-col size="1">
+          <ion-icon name="call-outline"></ion-icon>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Teléfono</ion-label>
+            <ion-input type="tel" formControlName="tel"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-align-items-center ion-text-center">
+        <ion-col size="1">
+          <ion-icon name="trail-sign-outline"></ion-icon>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Dirección</ion-label>
+            <ion-textarea autoGrow class="ion-text-capitalize" formControlName="address"></ion-textarea>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+    
+    
+    
+    
+    <ion-fab *ngIf="!edit"  vertical="bottom" horizontal="center" style="position: fixed;">
+      <ion-fab-button type="button" [disabled]="!formData.valid" (click)="submitForm()" >
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+    
+    <ion-fab *ngIf="edit"  vertical="bottom" horizontal="center" style="position: fixed;">
+      <ion-fab-button type="button" [disabled]="!formData.valid" (click)="submitForm()" >
+        <ion-icon name="save-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+  </form>
+</ion-content>

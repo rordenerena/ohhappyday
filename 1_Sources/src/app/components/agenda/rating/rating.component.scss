@@ -1,0 +1,22 @@
+ion-thumbnail {
+    margin: auto;
+    width: 35px;
+    height: 35px;
+}
+
+.unselected path{
+    fill: gray;
+}
+
+.selected-0 path, .selected-0 rect {
+    fill: rgb(0, 180, 0);
+    fill: #99ff33;
+    fill: #7ad81c;
+}
+.selected-1 path, .selected-1 rect {
+    fill: #ffcc00;
+}
+.selected-2 path, .selected-2 rect {
+    fill: rgb(190, 20, 20);
+    fill: #ff9999;
+}

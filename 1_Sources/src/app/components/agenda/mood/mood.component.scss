@@ -1,0 +1,35 @@
+.mood_label {
+    margin-top: 5px;
+    display: block;
+}
+
+.mood-selected {
+    border-radius: 5px;
+}
+
+.feliz {
+    background-color: #99ff33;
+}
+.cansado {
+    background-color: #ccff66;
+}
+.triste {
+    background-color: #ffdb4d;
+}
+.molesto {
+    background-color: #ffcc99;
+}
+.enfadado {
+    background-color: #ff9999;
+}
+
+ion-thumbnail {
+    margin: auto;
+}
+
+ion-segment-button {
+    line-height: 0px;
+    min-width: auto;
+    text-size-adjust: auto;
+    font-size: 0.9em;
+}

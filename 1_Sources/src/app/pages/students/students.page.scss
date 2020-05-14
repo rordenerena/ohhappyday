@@ -1,0 +1,30 @@
+ion-col {
+    height: 15vh;
+}
+
+ion-col > div {
+    margin-top: 5px;
+    font-size: 1em;
+}
+
+.avatar {
+    display: block;
+    height: 9vh;
+    width: 9vh;
+    margin: auto;
+}
+
+app-datepicker {
+    display: block;
+    height: 56px;
+}
+
+ion-grid {
+    display: block;
+    height: calc(96% - 56px);
+    overflow: scroll;
+}
+
+.name {
+    margin-top: 5px;
+}

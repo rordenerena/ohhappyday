@@ -1,0 +1,11 @@
+{
+  "appId": "com.thehappymind.ohhappyday",
+  "appName": "Oh! Happy Day",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "hideLogs": true,
+  "backgroundColor": "#000000",
+  "cordova": {},
+  "linuxAndroidStudioPath": "/home/rorden/apps/android-studio/bin/studio.sh"
+}

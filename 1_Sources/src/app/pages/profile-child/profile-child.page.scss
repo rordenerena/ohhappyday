@@ -1,0 +1,26 @@
+.item1 { grid-area: photo; width: 30vw; height: 30vw;}
+.item2 { grid-area: name; padding-left: 10px;}
+.item3 { grid-area: birthdate;  padding-left: 10px;}
+
+.grid-container {
+    display: grid;
+    grid-template-areas: 
+        'photo name'
+        'photo birthdate';
+    align-items: center;
+}
+
+.childInfo {
+    width: calc(100vw - (var(--ion-padding, 16px)*2) );
+}
+
+.childFollowers {
+    width: calc(100vw - (var(--ion-padding, 16px)*2) );
+    margin-top: 10px;
+}
+
+ion-list > div {
+    overflow: scroll;
+    height: 60vh;
+    margin-bottom: 60px;
+}

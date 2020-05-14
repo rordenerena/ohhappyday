@@ -1,0 +1,47 @@
+<div class="grid-container" *ngIf="!viewer" >
+  <div class="item1">
+    <ion-thumbnail>
+      <img src="assets/poo.svg" />
+    </ion-thumbnail>
+    <ion-label>{{value.times}}</ion-label>
+  </div>
+  <div class="item2">
+    <ion-range mode='ios' min="0" max="10" snaps="true" ticks="true" color="warning"
+    (ionChange)="setPooTimes($event)" [value]="value.times"></ion-range>
+  </div>
+  <div class="item3">
+    <ion-segment mode='ios' style="font-size: 0.8em;" [value]="value.type" (ionChange)="setPooType($event)">
+      <ion-segment-button value="normal">
+        <ion-label>Normal</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="blanda">
+        <ion-label>Blanda</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="diarrea">
+        <ion-label>Diarrea</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="dura">
+        <ion-label>Dura</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+</div>
+
+<div *ngIf="showPooViewer()">
+  <ion-grid>
+    <ion-row class="ion-align-items-center ion-text-center">
+      <ion-col>
+        <ion-thumbnail>
+          <img src="assets/poo.svg" />
+        </ion-thumbnail>
+      </ion-col>
+      <ion-col>
+        <ion-label class="ion-text-capitalize">{{getValueType()}}</ion-label>
+      </ion-col>
+      <ion-col>
+        <ion-label style="font-size: 3em;">{{value.times}}</ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <hr/>
+</div> 

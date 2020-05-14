@@ -1,0 +1,51 @@
+<ion-grid *ngIf="!viewer" class="container">
+  <ion-row class="ion-align-items-center ion-text-center">
+    <ion-col>Para mañana</ion-col>
+    <ion-col>
+      <ion-thumbnail (click)="tomorrowSel(0)" [ngClass]="tomorrowClass(0)">
+        <img src="assets/panales.svg" />
+      </ion-thumbnail>
+    </ion-col>
+    <ion-col>
+      <ion-thumbnail (click)="tomorrowSel(1)" [ngClass]="tomorrowClass(1)">
+        <img src="assets/toallitas.svg" />
+      </ion-thumbnail>
+    </ion-col>
+    <ion-col>
+      <ion-thumbnail (click)="tomorrowSel(2)" [ngClass]="tomorrowClass(2)">
+        <img src="assets/clothes.svg" />
+      </ion-thumbnail>
+    </ion-col>
+    <ion-col>
+      <ion-thumbnail (click)="tomorrowSel(3)" [ngClass]="tomorrowClass(3)">
+        <img src="assets/water.svg" />
+      </ion-thumbnail>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-grid *ngIf="viewer && (value.nappy || value.wipers || value.clothes || value.water)" class="container">
+  <ion-row class="ion-align-items-center ion-text-center">
+    <ion-col>Para mañana</ion-col>
+    <ion-col *ngIf="value.nappy">
+      <ion-thumbnail>
+        <img src="assets/panales.svg" />
+      </ion-thumbnail>
+    </ion-col>
+    <ion-col *ngIf="value.wipers">
+      <ion-thumbnail >
+        <img src="assets/toallitas.svg" />
+      </ion-thumbnail>
+    </ion-col>
+    <ion-col *ngIf="value.clothes">
+      <ion-thumbnail >
+        <img src="assets/clothes.svg" />
+      </ion-thumbnail>
+    </ion-col>
+    <ion-col *ngIf="value.water">
+      <ion-thumbnail >
+        <img src="assets/water.svg" />
+      </ion-thumbnail>
+    </ion-col>
+  </ion-row>
+</ion-grid>

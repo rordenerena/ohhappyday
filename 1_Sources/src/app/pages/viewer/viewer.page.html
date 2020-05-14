@@ -1,0 +1,93 @@
+<ion-header *ngIf="areChilds()">
+
+  <ion-toolbar color="primary">
+
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Agenda de {{entity ? entity.name : ''}}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="toProfile()">
+        <ion-avatar style="width: 35px; height: 35px;" >
+          <img [src]="(entity && entity.picture) ? entity.picture : 'assets/baby.svg'" />
+        </ion-avatar>
+      </ion-button>
+      <ion-button (click)="showMenu($event)">
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-grid class="nav" *ngIf="isNaving()" >
+  <ion-row class="ion-align-items-center ion-text-center">
+    <ion-col>
+      <img class="arrowNav" [ngClass]="isNavLeft()" src="assets/navLeft.svg" />
+    </ion-col>
+    <ion-col></ion-col>
+    <ion-col style="text-align: right;">
+      <img class="arrowNav" [ngClass]="isNavRight()"src="assets/navRight.svg" />
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-content *ngIf="areChilds()" (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">
+  <app-datepicker (onChange)="changeDate($event)" [value]="agenda.day" [viewer]="true"></app-datepicker>
+  <div *ngIf="agendaItem" >
+    <app-dayevent [value]="agenda.event" [viewer]="true"></app-dayevent>
+    <app-tomorrow [value]="agendaItem.tomorrow" [viewer]="true"></app-tomorrow>
+    <app-mood [value]="agendaItem.mood" [viewer]="true"></app-mood>
+    <app-poo [value]="agendaItem.poo" [viewer]="true"></app-poo>
+    <app-food [value]="agendaItem.food" [viewer]="true"></app-food>
+    <app-comments [value]="agendaItem.comments" [viewer]="true"></app-comments>
+  </div>
+  <div class="pager" *ngIf="areChilds() && childrens.length > 1">
+    <div class="swiper-pagination swiper-pagination-bullets">
+      <span *ngFor="let item of ids" class="swiper-pagination-bullet" [ngClass]="item == entity.index ? 'swiper-pagination-bullet-active' : ''" ></span>
+    </div>
+  </div>
+  <div *ngIf="!agendaItem" class="noagenda">
+    <div class="tablecell"></div>
+    <div class="tablecell circle" id="toanim">
+      <ion-thumbnail class="avatar">
+        <img src="assets/agenda.svg" />
+      </ion-thumbnail>
+      <ion-text>
+        <h1>Sin parte para <br/>este día</h1>
+      </ion-text>
+    </div>
+    <div class="tablecell"></div>
+  </div>
+</ion-content>
+
+
+<ion-content *ngIf="!areChilds()" class="empty ion-padding">
+
+  <ion-thumbnail class="avatar">
+    <img src="assets/baby.svg" />
+  </ion-thumbnail>
+  <ion-text>
+    <h1>Sin hij@s<br /> en seguimiento</h1>
+  </ion-text>
+  <ion-text>
+    <h3>Deberá añadir a su hij@ escaneando el QR-Code facilitado por el educador</h3>
+  </ion-text>
+  <ion-thumbnail>
+    <img src="assets/qrcode.svg" />
+  </ion-thumbnail>
+  <!-- <ion-button fill="clear" expand="full">
+      Ver demo
+    </ion-button> -->
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="scan()">
+      <!-- <ion-icon name="add"></ion-icon> -->
+      <!-- <ion-icon name="add-outline"></ion-icon> -->
+      <ion-icon name="scan-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,64 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "v": {
+        "type": "number",
+        "description": "The version of API JSON Schema"
+      },
+      "t": {
+        "type": "object",
+        "description": "Teacher Object",
+        "properties": {
+            "n": {
+                "type": "string",
+                "description": "The name of teacher"
+            },
+            "m": {
+                "type": "string",
+                "description": "The mail of teacher"
+            },
+            "p": {
+                "type": "string",
+                "description": "The token push of teacher"
+            },
+            "i": {
+                "type": "string",
+                "description": "ID Onesignal"
+            },
+            "pf": {
+                "type": "string",
+                "description": "The mobile platform used"
+            },
+            "ai": {
+                "type": "string",
+                "description": "The IV string for AES"
+            },
+            "ak": {
+                "type": "string",
+                "description": "The Key string for AESD"
+            }
+        },
+        "required": ["n", "m", "p", "i", "pf", "ai", "ak"]
+      },
+      "c": {
+        "type": "object",
+        "properties": {
+          "n": {
+            "type": "string",
+            "description": "The name of child"
+          },
+          "i": {
+            "type": "number",
+            "description": "The id of child for teacher"
+          }
+        },
+        "required": ["n", "i"]
+      },
+      "f": {
+        "type": "number",
+        "description": "The ID of Follower in Teacher App"
+      }
+    },
+    "required": ["v", "t", "c", "f"]
+  }

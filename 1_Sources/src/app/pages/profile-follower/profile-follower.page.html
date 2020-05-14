@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title style="text-align: center;">Añadir Familiar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
+  <form [formGroup]="formData">
+    <ion-grid>
+      <ion-row class="ion-align-items-center ion-text-center">
+        <ion-col size="1">
+          <ion-icon name="text-outline"></ion-icon>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input class="ion-text-capitalize" formControlName="name"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-align-items-center ion-text-center">
+        <ion-col size="1">
+          <ion-icon name="person-outline"></ion-icon>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Parentesco</ion-label>
+            <ion-input class="ion-text-capitalize" formControlName="relationship"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-align-items-center ion-text-center">
+        <ion-col size="1">
+          <ion-icon name="at-outline"></ion-icon>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Correo electrónico</ion-label>
+            <!-- Using emailregex.com for this input. Javascript notation -->
+            <ion-input pattern='[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+' formControlName="mail" type="email" inputmode="email" ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-align-items-center ion-text-center">
+        <ion-col size="1">
+          <ion-icon name="call-outline"></ion-icon>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Teléfono</ion-label>
+            <ion-input formControlName="tel" type="tel"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+    <ion-fab vertical="bottom" horizontal="center" slot="fixed" style="position: fixed;" (click)="save()">
+      <ion-fab-button [disabled]="!formData.valid">
+        <ion-icon name="checkmark-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </form>
+  <div class="ion-text-center" style="color: gray; font-style: italic;">
+    <p>- para -</p>
+  </div>
+  <app-profile-picture disabled="true" [value]="child.picture"></app-profile-picture>
+  <div class="ion-text-center ion-capitalized" style="color: gray;font-weight: 300;font-size: 2em;padding-top: 10px;">
+    {{child.name}}
+  </div>
+</ion-content>

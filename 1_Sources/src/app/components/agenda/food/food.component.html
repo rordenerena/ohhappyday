@@ -1,0 +1,84 @@
+<ion-grid *ngIf="!viewer">
+  <ion-row class="ion-align-items-center ion-text-center">
+    <ion-col size="2">
+      <ion-thumbnail (click)="toast('Desayuno')">
+        <img src="assets/desayuno.svg" />
+      </ion-thumbnail>
+    </ion-col>
+    <ion-col>
+      <app-rating [value]="value.breakfast" (onChange)="setDesayuno($event)"></app-rating>
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-align-items-center ion-text-center">
+    <ion-col size="2">
+      <ion-thumbnail (click)="toast('Comida')">
+        <img src="assets/comida.svg" />
+      </ion-thumbnail>
+    </ion-col>
+    <ion-col>
+      <app-rating [value]="value.meal" (onChange)="setComida($event)"></app-rating>
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-align-items-center ion-text-center">
+    <ion-col size="2">
+      <ion-thumbnail (click)="toast('Ingesta')">
+        <img src="assets/ingesta.svg" />
+      </ion-thumbnail>
+    </ion-col>
+    <ion-col>
+      <app-rating [value]="value.ingest" (onChange)="setIngesta($event)"></app-rating>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<div *ngIf="viewer">
+  <ion-grid>
+    <ion-row class="ion-align-items-center ion-text-center">
+      <ion-col *ngIf="show(value.breakfast)">
+        <ion-grid>
+          <ion-row class="ion-align-items-center ion-text-center">
+            <ion-col>
+              <ion-thumbnail (click)="toast('Desayuno')">
+                <img src="assets/desayuno.svg" />
+              </ion-thumbnail>
+            </ion-col>
+            <ion-col>
+              <app-rating [value]="value.breakfast" [viewer]="viewer"></app-rating>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <!-- <ion-label>Desayuno</ion-label> -->
+      </ion-col>
+      <ion-col *ngIf="show(value.meal)">
+        <ion-grid>
+          <ion-row class="ion-align-items-center ion-text-center">
+            <ion-col>
+              <ion-thumbnail (click)="toast('Comida')">
+                <img src="assets/comida.svg" />
+              </ion-thumbnail>
+            </ion-col>
+            <ion-col>
+              <app-rating [value]="value.meal" [viewer]="viewer"></app-rating>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <!-- <ion-label>Comida</ion-label> -->
+      </ion-col>
+      <ion-col *ngIf="show(value.ingest)">
+        <ion-grid>
+          <ion-row class="ion-align-items-center ion-text-center">
+            <ion-col>
+              <ion-thumbnail (click)="toast('Ingesta')">
+                <img src="assets/ingesta.svg" />
+              </ion-thumbnail>
+            </ion-col>
+            <ion-col>
+              <app-rating [value]="value.ingest" [viewer]="viewer"></app-rating>
+            </ion-col>
+          </ion-row>
+        </ion-grid>        
+        <!-- <ion-label>Ingesta</ion-label> -->
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>

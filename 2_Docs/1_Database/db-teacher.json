@@ -1,0 +1,145 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "properties": {
+        "version": {
+            "type": "number"
+        },
+        "teacher": {
+            "name": {
+                "type": "string"
+            },
+            "mail": {
+                "type": "string"
+            },
+            "image": {
+                "type": "string",
+                "description": "Imagen en base64"
+            },
+            "push": {
+                "type": "string"
+            }
+        },
+        "centre": {
+            "name": {
+                "type": "string"
+            },
+            "tel": {
+                "type": "string"
+            },
+            "mail": {
+                "type": "string"
+            },
+            "image": {
+                "type": "string",
+                "description": "Imagen en base64"
+            }
+        },
+        "children": {
+            "type": "array",
+            "items": {
+                "type" :"object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "birthdate": {
+                        "type" : "string"
+                    },
+                    "image": {
+                        "type": "string",
+                        "description": "Imagen en base64"
+                    },
+                    "followers": {
+                        "type":"array",
+                        "items": {
+                            "type":"object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "relationship": {
+                                    "type": "string"
+                                },
+                                "mail": {
+                                    "type": "string"
+                                },
+                                "tel": {
+                                    "type": "string"
+                                },
+                                "push": {
+                                    "type": "array",
+                                    "items": {
+                                        "type":"string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "agenda": {
+                        "type": "object",
+                        "patternProperties": {
+                            "^\\d{1,2}\/\\d{1,2}\/\\d{4}$": {
+                                "type":"object",
+                                "properties": {
+                                    "ceremony": {
+                                        "type":"object",
+                                        "properties": {
+                                            "title": {
+                                                "type": "string"
+                                            },
+                                            "desc": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "tobring": {
+                                        "type":"object",
+                                        "properties": {
+                                            "nappy": {
+                                                "type":"boolean"
+                                            },
+                                            "wipe": {
+                                                "type":"boolean"
+                                            }
+                                        }
+                                    },
+                                    "mood": {
+                                        "type": "number"
+                                    },
+                                    "poo": {
+                                        "type":"object",
+                                        "properties": {
+                                            "times": {
+                                                "type":"number"
+                                            },
+                                            "type": {
+                                                "type":"number"
+                                            }
+                                        }
+                                    },
+                                    "food": {
+                                        "type":"object",
+                                        "properties": {
+                                            "breakfast": {
+                                                "type":"number"
+                                            },
+                                            "meal": {
+                                                "type":"number"
+                                            },
+                                            "snack": {
+                                                "type":"number"
+                                            }
+                                        }
+                                    },
+                                    "comments": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,11 @@
+<ion-item *ngIf="!viewer" >
+  <ion-label position="floating">Comentarios</ion-label>
+  <ion-textarea maxlength="400" autoGrow [value]="value" (ionChange)="setValue($event)"></ion-textarea>
+</ion-item>
+
+<ion-item *ngIf="viewer && value!=''" label="none">
+  <ion-label class="ion-text-wrap">
+    <h2 style="padding-bottom: 10px;"><b>Comentario</b></h2>
+    <p>{{value}}</p>
+  </ion-label>
+</ion-item>

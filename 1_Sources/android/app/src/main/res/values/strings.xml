@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Oh! Happy Day</string>
+    <string name="title_activity_main">Oh! Happy Day</string>
+    <string name="package_name">com.thehappymind.ohhappyday</string>
+    <string name="custom_url_scheme">com.thehappymind.ohhappyday</string>
+</resources>

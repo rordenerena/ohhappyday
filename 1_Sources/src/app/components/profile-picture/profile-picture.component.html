@@ -1,0 +1,6 @@
+<ion-avatar class="ionavatar">
+  <img [src]="san.bypassSecurityTrustUrl(value)" (click)="selectImage()"/>
+</ion-avatar>
+<ion-fab-button *ngIf="!disabled" class="editImage" (click)="selectImage()">
+  <ion-icon name="create-outline"></ion-icon>
+</ion-fab-button>

@@ -1,0 +1,19 @@
+.item1 { grid-area: poo; text-align: center; margin-left: 10px; margin-right: 10px; } 
+.item1 > ion-label {
+    margin-top: 10px;
+    display: block;
+}
+.item2 { grid-area: times; margin-right: 10px;}
+.item3 { grid-area: type; margin-right: 10px;}
+
+.grid-container {
+    display: grid;
+    grid-template-areas: 
+        'poo times'
+        'poo type';
+    align-items: center;
+}
+
+ion-thumbnail {
+    margin: auto;
+}

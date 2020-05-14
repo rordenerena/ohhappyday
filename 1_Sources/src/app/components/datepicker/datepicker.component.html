@@ -1,0 +1,39 @@
+<!-- CON FLECHAS, USAMOS GRID -->
+
+<ion-grid *ngIf="arrows">
+  <ion-row>
+    <ion-col size="2">
+      <ion-button fill="clear" (click)="rest()" >
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-col>
+    <ion-col>
+      <!-- <ion-datetime displayFormat="DDDD DD/MM/YYYY" 
+                placeholder="Fecha" 
+                #myPicker
+                style="text-align: center;"
+                [value]="current"
+                dayNames="Lunes, Martes, Miércoles, Jueves, Viernes, Sábado, Domingo"
+                monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"
+                (ionChange)="updateCurrent(myPicker.value)">
+              </ion-datetime> -->
+  <!-- <ion-input type="date" [value]="current"></ion-input> -->
+
+  <ion-input [ngStyle]="{'text-align': align}" [disabled]="disabled" readonly [(ngModel)]="value"
+  [liIonic4Datepicker]="datePickerObj"
+  (ionChange)="changeDp($event)">
+</ion-input>
+</ion-col>
+<ion-col size="2">
+  <ion-button fill="clear" (click)="add()" >
+    <ion-icon name="arrow-forward-outline"></ion-icon>
+  </ion-button>
+</ion-col>
+</ion-row>
+</ion-grid>
+
+<!-- SI FLECHAS NOS OLVIDAMOS DEL GRID -->
+
+<ion-input *ngIf="!arrows" [ngStyle]="{'text-align': align}" [disabled]="disabled" readonly [(ngModel)]="value"
+[liIonic4Datepicker]="datePickerObj"
+(ionChange)="changeDp($event)">

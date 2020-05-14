@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title style="text-align: center;">Mis alumn@s</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="showMenu($event)">
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+    <app-datepicker (onChange)="dpOnChange($event)"></app-datepicker>
+    <ion-grid>
+      <ion-row *ngFor="let row of rows"  style="text-align: center;">
+        <ion-col *ngFor="let col of cols" (click)="goTo(getStudent(row, col).index)" >
+          <div *ngIf="getStudent(row, col)">
+            <app-profile-picture class="avatar" disabled="true" [value]="getStudent(row, col).picture"></app-profile-picture>
+            <div class="ion-text-capitalize name">{{getStudent(row, col).name}}</div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button routerLink="/profile-child" [queryParams]="{op: 'new'}">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+</ion-content>

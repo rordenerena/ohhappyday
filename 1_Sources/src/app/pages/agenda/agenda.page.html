@@ -1,0 +1,72 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/students"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Agenda de {{entity.name}}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="toProfile()">
+        <ion-avatar style="width: 35px; height: 35px;" >
+          <img [src]="san.bypassSecurityTrustUrl(entity.picture)" />
+        </ion-avatar>
+      </ion-button>
+      <ion-button (click)="showMenu($event)">
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-grid class="nav" *ngIf="isNaving()" >
+  <ion-row class="ion-align-items-center ion-text-center">
+    <ion-col>
+      <img class="arrowNav" [ngClass]="isNavLeft()" src="assets/navLeft.svg" />
+    </ion-col>
+    <ion-col></ion-col>
+    <ion-col style="text-align: right;">
+      <img class="arrowNav" [ngClass]="isNavRight()"src="assets/navRight.svg" />
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-content  (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">  
+  
+  <form [formGroup]="formData" >
+    
+    <app-datepicker formControlName="day" ></app-datepicker>
+    
+    <app-dayevent formControlName="dayevent"></app-dayevent>
+    
+    <app-tomorrow formControlName="tomorrow"></app-tomorrow>
+    
+    <app-mood formControlName="mood"></app-mood>
+    <hr />
+    
+    <app-poo formControlName="poo"></app-poo>
+    <hr />
+    
+    <app-food formControlName="food"></app-food>
+    <hr />
+    
+    <app-comments formControlName="comments"></app-comments>
+  </form>
+
+  <div class="pager">
+    <div class="swiper-pagination swiper-pagination-bullets">
+      <span *ngFor="let item of ids" class="swiper-pagination-bullet" [ngClass]="item == entity.index ? 'swiper-pagination-bullet-active' : ''" ></span>
+    </div>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="sendAgenda()" >
+    <ion-fab-button>
+      <ion-icon name="send-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  
+</ion-content>
