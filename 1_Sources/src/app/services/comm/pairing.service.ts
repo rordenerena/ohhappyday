@@ -28,10 +28,14 @@ export class PairingService {
   /**
    * Paso 1: Enviar e-mail para crear el hijo en Follower
    */
-  invite(teacher: Teacher, follower: Follower, child: ChildInfoTeacher) {
-    let obj = ApiInviteObject.encode(teacher, child, follower, this.platform.getPlatform());
-    let qrcode = this.qrCode.genQRCode(obj);
-    this.mailService.sendPairing(teacher, follower, child, qrcode);
+  async invite(teacher: Teacher, follower: Follower, child: ChildInfoTeacher) {
+    if( (await this.db.getUserBase()).push ) {
+      let obj = ApiInviteObject.encode(teacher, child, follower, this.platform.getPlatform());
+      let qrcode = this.qrCode.genQRCode(obj);
+      this.mailService.sendPairing(teacher, follower, child, qrcode);
+    } else {
+      this.toastService.toast("No es posible obtener los IDs de comunicación Push. Solícitelos de nuevo en el menú de la aplicación.", 5000);
+    }
   }
 
 

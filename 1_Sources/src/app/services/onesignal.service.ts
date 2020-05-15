@@ -1,3 +1,5 @@
+import { environment } from './../../environments/environment.prod';
+import { ToastService } from './toast.service';
 import { ChildManagerService } from './comm/childmanager.service';
 import { ApiResponseObject, ApiAgendaObject } from './comm/bean.comm';
 import { PlatformService } from './platform.service';
@@ -29,13 +31,14 @@ export class OneSignalService {
     private pairingService: PairingService,
     private agendaService: AgendaService,
     private platformService: PlatformService,
-    private childManager: ChildManagerService) { }
+    private childManager: ChildManagerService,
+    private toastService: ToastService) { }
 
   /**
    * Check if the token push and identity from OneSignal has changed.
    * Save it in any case.
    */
-  async checkToken() {
+  async checkToken(retry = false) {
     let ids: {
       userId: string;
       pushToken: string;
@@ -80,8 +83,14 @@ export class OneSignalService {
       if(!userInfo.platform) {
         userInfo.platform = this.platformService.getPlatform();
       }
-
-      this.db.setUserBase(userInfo);
+      if(retry) {
+        if(!environment.production) {
+          this.toastService.toast(`Recibidos identificadores Push: ${userInfo.push.id}`);
+        } else {
+          this.toastService.toast(`Recibidos identificadores Push`);
+        }
+      }
+      await this.db.setUserBase(userInfo);
     }
   }
 

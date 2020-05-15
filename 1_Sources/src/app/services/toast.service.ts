@@ -12,10 +12,10 @@ export class ToastService {
    * 
    * @param msg Show a toast message
    */
-  async toast(msg: string) {
+  async toast(msg: string, duration = 2000) {
     const t = await this.toastController.create({
       message: msg,
-      duration: 2000
+      duration: duration
     });
     t.present();
   }

@@ -198,6 +198,7 @@ export class ProfileChildPage implements OnInit {
   async showMenu(ev: any) {
     let options = {
       "delete-child": "Eliminar alumno",
+      "refresh-push-token": "Solicitar IDs Push",
       "about": "Acerca de"
     };
     const popover = await this.popoverController.create({
@@ -212,6 +213,9 @@ export class ProfileChildPage implements OnInit {
       switch (data.op) {
         case "delete-child":
           this.deleteChild();
+          break;
+        case "refresh-push-token":
+          this.onesignal.checkToken(true);
           break;
         case "about":
           this.router.navigate(['/about']);
