@@ -51,7 +51,6 @@ export class ViewerPage implements OnInit {
         if (event.data.child === this.entity.index && event.data.day === this.agenda.day) {
           // this.startupNext(event.data.child, event.data.day);
           await this.loadAgendaFor(event.data.day);
-          debugger;
           this.changeDetector.detectChanges();
 
         }
@@ -292,22 +291,22 @@ export class ViewerPage implements OnInit {
   }
 
   swipe(e: TouchEvent, when: string): void {
-    const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
-    const time = new Date().getTime();
-
-    if (when === 'start') {
-      this.swipeCoord = coord;
-      this.swipeTime = time;
-    } else if (when === 'end') {
-      const direction = [coord[0] - this.swipeCoord[0], coord[1] - this.swipeCoord[1]];
-      const duration = time - this.swipeTime;
-
-      if (duration < 1000 //
-        && Math.abs(direction[0]) > 30 // Long enough
-        && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) { // Horizontal enough
-        const swipe = direction[0] < 0 ? 'next' : 'previous';
-        // Do whatever you want with swipe
-        if (localStorage.getItem("nonav") === "false") {
+    if(this.areChilds() && this.childrens.length > 1) {
+      const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
+      const ttime = new Date().getTime();
+      if (when === 'start') {
+        this.swipeCoord = coord;
+        this.swipeTime = ttime;
+      } else if (when === 'end') {
+        const direction = [coord[0] - this.swipeCoord[0], coord[1] - this.swipeCoord[1]];
+        const duration = ttime - this.swipeTime;
+  
+        if (duration < 1000 //
+          && Math.abs(direction[0]) > 30 // Long enough
+          && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) { // Horizontal enough
+          
+          const swipe = direction[0] < 0 ? 'next' : 'previous';
+          // Do whatever you want with swipe
           this.nav = swipe;
           if (swipe === 'next') {
             this.navigateChild(this.next);

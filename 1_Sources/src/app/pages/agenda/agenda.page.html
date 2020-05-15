@@ -57,7 +57,7 @@
     <app-comments formControlName="comments"></app-comments>
   </form>
 
-  <div class="pager">
+  <div *ngIf="ids && ids.length > 1" class="pager">
     <div class="swiper-pagination swiper-pagination-bullets">
       <span *ngFor="let item of ids" class="swiper-pagination-bullet" [ngClass]="item == entity.index ? 'swiper-pagination-bullet-active' : ''" ></span>
     </div>

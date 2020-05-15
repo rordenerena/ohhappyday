@@ -35,7 +35,7 @@
   </ion-row>
 </ion-grid>
 
-<ion-content *ngIf="areChilds()" (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">
+<ion-content *ngIf="areChilds()"  (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">
   <app-datepicker (onChange)="changeDate($event)" [value]="agenda.day" [viewer]="true"></app-datepicker>
   <div *ngIf="agendaItem" >
     <app-dayevent [value]="agenda.event" [viewer]="true"></app-dayevent>
@@ -45,7 +45,7 @@
     <app-food [value]="agendaItem.food" [viewer]="true"></app-food>
     <app-comments [value]="agendaItem.comments" [viewer]="true"></app-comments>
   </div>
-  <div class="pager" *ngIf="areChilds() && childrens.length > 1">
+  <div *ngIf="areChilds() && childrens.length > 1" class="pager" >
     <div class="swiper-pagination swiper-pagination-bullets">
       <span *ngFor="let item of ids" class="swiper-pagination-bullet" [ngClass]="item == entity.index ? 'swiper-pagination-bullet-active' : ''" ></span>
     </div>
