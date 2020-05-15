@@ -43,27 +43,27 @@ export class ViewerPage implements OnInit {
     private pairingService: PairingService,
     private onesignal: OneSignalService,
     private changeDetector: ChangeDetectorRef) {
-      this.onesignal.change.subscribe(async (event)=>{
-        debugger;
-        if(event.page === 'viewer') {
-          await this.startupNext(event.data.child, undefined);
-        } else if(event.page === 'agenda') {
-          if(event.data.child === this.entity.index && event.data.day === this.agenda.day) {
-            // this.startupNext(event.data.child, event.data.day);
-            await this.loadAgendaFor(event.data.day);
-            debugger;
-            this.changeDetector.detectChanges();
+    this.onesignal.change.subscribe(async (event) => {
+      debugger;
+      if (event.page === 'viewer') {
+        await this.startupNext(event.data.child, undefined);
+      } else if (event.page === 'agenda') {
+        if (event.data.child === this.entity.index && event.data.day === this.agenda.day) {
+          // this.startupNext(event.data.child, event.data.day);
+          await this.loadAgendaFor(event.data.day);
+          debugger;
+          this.changeDetector.detectChanges();
 
-          }
         }
-      })
+      }
+    })
   }
 
   async ngOnInit() {
     this.startup();
   }
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     this.startup();
   }
 
@@ -100,7 +100,7 @@ export class ViewerPage implements OnInit {
    * Load the agenda from DB for a specific day
    */
   async updateAgenda(day: string) {
-    if(this.entity)  {
+    if (this.entity) {
       if (day) {
         await this.loadAgendaFor(day);
       } else {
@@ -122,7 +122,7 @@ export class ViewerPage implements OnInit {
       this.startupNext(params.child, params.day);
     });
   }
-  
+
   /**
    * Default behaviour when query parameters have been read.
    * Show the agenda for a child if not exists, navigate
@@ -132,18 +132,18 @@ export class ViewerPage implements OnInit {
    */
   async startupNext(index: number, day: string) {
     let childrens = await this.db.getChildIds();
-    if(index) {
+    if (index) {
       let child = index ? index : parseInt(childrens[0], 10);
-      this.entity = <ChildInfoFollower> await this.db.getChild(child);
-      if(this.entity) {
+      this.entity = <ChildInfoFollower>await this.db.getChild(child);
+      if (this.entity) {
         await this.setNextAndPrevious(this.entity.index);
         await this.updateAgenda(day);
       } else {
         this.router.navigate(['/']);
       }
     } else {
-      if(childrens.length > 0) {
-        this.router.navigate(['/viewer'], {queryParams: {child: childrens[0]}});
+      if (childrens.length > 0) {
+        this.router.navigate(['/viewer'], { queryParams: { child: childrens[0] } });
       } else {
         this.router.navigate(['/'])
       }
@@ -156,7 +156,7 @@ export class ViewerPage implements OnInit {
    * Go to profile children page
    */
   toProfile() {
-    this.router.navigate(['/profile-child'], { queryParams: { child: this.entity.index }});
+    this.router.navigate(['/profile-child'], { queryParams: { child: this.entity.index } });
   }
 
   /**
@@ -194,9 +194,10 @@ export class ViewerPage implements OnInit {
     let options = {
       "profile-child": `Perfil de ${this.entity.name}`,
       "add-children": "Añadir nuevo hij@ (QR)",
-      "sent-pushids": "Reenviar IDs de comunicación"
+      "sent-pushids": "Reenviar IDs de comunicación",
+      "about": "Acerca de"
     };
-    if(!environment.production) {
+    if (!environment.production) {
       options["to-agenda"] = "DEV: Ver agenda de profesor";
     }
     const popover = await this.popoverController.create({
@@ -217,12 +218,15 @@ export class ViewerPage implements OnInit {
         break;
       case 'sent-pushids':
         (await this.db.getChildrens()).forEach(async element => {
-            this.pairingService.updateResponse(await this.db.getFollower(), element);
+          this.pairingService.updateResponse(await this.db.getFollower(), element);
         });
         this.toastService.toast("Enviados identificadores de comunicación")
         break;
       case "to-agenda":
-        this.router.navigate(['/agenda'], {queryParams: {child: this.entity.index, day: this.agenda.day}});
+        this.router.navigate(['/agenda'], { queryParams: { child: this.entity.index, day: this.agenda.day } });
+        break;
+      case "about":
+        this.router.navigate(['/about']);
         break;
     }
   }
@@ -243,16 +247,16 @@ export class ViewerPage implements OnInit {
     let pos = this.ids.indexOf(`${value}`);
 
     this.slideOpts.initialSlide = pos;
-    
-    if(pos == (this.ids.length-1) ) {
-      this.next = parseInt(this.ids[0],10);
+
+    if (pos == (this.ids.length - 1)) {
+      this.next = parseInt(this.ids[0], 10);
     } else {
-      this.next = parseInt(this.ids[pos+1],10);
+      this.next = parseInt(this.ids[pos + 1], 10);
     }
-    if(pos == 0 ) {
-      this.previous = parseInt(this.ids[this.ids.length - 1],10);
+    if (pos == 0) {
+      this.previous = parseInt(this.ids[this.ids.length - 1], 10);
     } else {
-      this.previous = parseInt(this.ids[pos - 1],10);
+      this.previous = parseInt(this.ids[pos - 1], 10);
     }
 
     console.log(this);
@@ -262,9 +266,9 @@ export class ViewerPage implements OnInit {
    * Navigate to the viewer for a specific child and day
    */
   navigateChild(index: number, day = this.agenda.day) {
-    this.router.navigate(['/viewer'], {queryParams: {child: index, day: day}});
+    this.router.navigate(['/viewer'], { queryParams: { child: index, day: day } });
   }
-  
+
 
   /****************** NAVIGATION SWIPE */
   isNavLeft() {
@@ -282,35 +286,35 @@ export class ViewerPage implements OnInit {
   }
 
   cancelNav() {
-    setTimeout( () => {
+    setTimeout(() => {
       this.nav = "";
-    }, 500 );
+    }, 500);
   }
 
   swipe(e: TouchEvent, when: string): void {
     const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
     const time = new Date().getTime();
-  
+
     if (when === 'start') {
       this.swipeCoord = coord;
       this.swipeTime = time;
     } else if (when === 'end') {
       const direction = [coord[0] - this.swipeCoord[0], coord[1] - this.swipeCoord[1]];
       const duration = time - this.swipeTime;
-  
+
       if (duration < 1000 //
         && Math.abs(direction[0]) > 30 // Long enough
         && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) { // Horizontal enough
-          const swipe = direction[0] < 0 ? 'next' : 'previous';
-          // Do whatever you want with swipe
-          if(localStorage.getItem("nonav") === "false") {
-            this.nav = swipe;
-            if(swipe === 'next') {
-              this.navigateChild(this.next);
-            } else {
-              this.navigateChild(this.previous);
-            }
-        } 
+        const swipe = direction[0] < 0 ? 'next' : 'previous';
+        // Do whatever you want with swipe
+        if (localStorage.getItem("nonav") === "false") {
+          this.nav = swipe;
+          if (swipe === 'next') {
+            this.navigateChild(this.next);
+          } else {
+            this.navigateChild(this.previous);
+          }
+        }
       }
     }
   }

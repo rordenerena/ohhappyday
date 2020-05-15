@@ -39,7 +39,7 @@ export class ProfileChildPage implements OnInit {
     this.onesignal.change.subscribe(async (event) => {
       debugger;
       if (event.page === 'profile-child') {
-        if(this.entity && this.entity.index == event.data.child) {
+        if (this.entity && this.entity.index == event.data.child) {
           await this.loadEntity(event.data.child);
           this.changeDetector.detectChanges();
         }
@@ -107,7 +107,7 @@ export class ProfileChildPage implements OnInit {
   private async save() {
     // TODO: Save the children with followers
     let v = Object.assign(this.entity, this.formData.value);
-    this.entity = <ChildInfoTeacher> await this.db.setChild(v);
+    this.entity = <ChildInfoTeacher>await this.db.setChild(v);
   }
 
   /**
@@ -132,9 +132,9 @@ export class ProfileChildPage implements OnInit {
   async addFollower() {
     await this.save();
     this.router.navigate(['/profile-child'], { queryParams: { child: this.entity.index } });
-    setTimeout(()=>{
+    setTimeout(() => {
       this.router.navigate(['/profile-follower'], { queryParams: { child: this.entity.index } });
-    },0);
+    }, 0);
   }
 
   /**
@@ -199,7 +199,8 @@ export class ProfileChildPage implements OnInit {
    */
   async showMenu(ev: any) {
     let options = {
-      "delete-child": "Eliminar alumno"
+      "delete-child": "Eliminar alumno",
+      "about": "Acerca de"
     };
     const popover = await this.popoverController.create({
       component: MenuComponent,
@@ -213,6 +214,9 @@ export class ProfileChildPage implements OnInit {
       switch (data.op) {
         case "delete-child":
           this.deleteChild();
+          break;
+        case "about":
+          this.router.navigate(['/about']);
           break;
       }
     }
@@ -240,10 +244,10 @@ export class ProfileChildPage implements OnInit {
             let ptype = await this.db.getProfileType();
             // Esta primera opción sólo ha de ejecutarse cuando se es Teacher
             await this.db.deleteChild(this.entity.index);
-            if(ptype == ProfileType.TEACHER) {
+            if (ptype == ProfileType.TEACHER) {
               await this.childManagerService.deleteChild(this.entity);
               this.router.navigate(['/students']);
-            } else if(ptype === ProfileType.FOLLOWER) {
+            } else if (ptype === ProfileType.FOLLOWER) {
               this.router.navigate(['/viewer']);
             }
           }

@@ -87,7 +87,8 @@ export class StudentsPage implements OnInit {
       component: MenuComponent,
       componentProps: {
         "profile-teacher": "Mi perfil",
-        "profile-centre": "Centro educacional"
+        "profile-centre": "Centro educacional",
+        "about": "Acerca de"
       },
       event: ev
     });

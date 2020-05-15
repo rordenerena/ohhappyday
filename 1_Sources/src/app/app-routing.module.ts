@@ -39,6 +39,10 @@ const routes: Routes = [
     path: 'scanqr',
     loadChildren: () => import('./pages/scanqr/scanqr.module').then( m => m.ScanqrPageModule)
   },
+  {
+    path: 'about',
+    loadChildren: () => import('./pages/about/about.module').then( m => m.AboutPageModule)
+  },
 ];
 
 @NgModule({
