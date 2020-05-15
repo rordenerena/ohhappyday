@@ -21,7 +21,7 @@ export class ProfileChildPage implements OnInit {
 
   entity: ChildInfoTeacher;
   public formData: FormGroup;
-  title: string = 'Nuev@ niñ@';
+  title: string = '';
   formHasChanged: Boolean = false;
 
   constructor(private router: Router,
@@ -89,16 +89,14 @@ export class ProfileChildPage implements OnInit {
     this.route.queryParams.subscribe(async params => {
       if (params.child) {
         await this.loadEntity(params.child);
+      } else {
+        this.title = "Nuev@ niñ@";
       }
       if (params.op && params.op === "new") {
         this.entity = new ChildInfoTeacher();
         this.updateForm();
       }
     });
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.loadChildFromUrl();
   }
 
   /**
