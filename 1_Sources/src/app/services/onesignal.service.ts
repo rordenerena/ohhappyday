@@ -1,4 +1,4 @@
-import { environment } from './../../environments/environment.prod';
+import { environment } from './../../environments/environment';
 import { ToastService } from './toast.service';
 import { ChildManagerService } from './comm/childmanager.service';
 import { ApiResponseObject, ApiAgendaObject } from './comm/bean.comm';
