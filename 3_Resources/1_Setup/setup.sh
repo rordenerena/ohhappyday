@@ -24,7 +24,12 @@ npm install -g @ionic/cli
 
 ## Instalación de VSCode
 
-vscode="vscode.deb"
-wget https://go.microsoft.com/fwlink/?LinkID=760868 -O $vscode
-sudo dpkg -i $vscode
+sudo snap install code --classic
 
+
+## Instalación de Android Studio
+
+sudo snap install android-studio --classic
+sudo snap install androidsdk
+androidsdk 'platforms;android-29'
+androidsdk 'build-tools:29.0.3'
