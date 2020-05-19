@@ -10,25 +10,31 @@ enum PooType {
 enum Mood {
   FELIZ,
   TRSITE,
-  ENFADADO,
-  CANSADO,
-  MOLESTO
+  ENFADAD@,
+  CANSAD@,
+  MOLEST@
 }
 
-enum FoodState {
-    GOOD,
-    REGULAR,
-    BAD
+enum RatingVal {
+    MAL,
+    BIEN,
+    MUYBIEN
 }
 
-class Ceremony {
+class Index {
+  Number children
+}
+
+class Event {
   String title
   String description
 }
 
-class ToBring {
+class Tomorrow {
   Boolean nappy
   Boolean wipe
+  Boolean clothes
+  Boolean water
 }
 
 class Poo {
@@ -37,27 +43,56 @@ class Poo {
 }
 
 class Food {
-    FoodState breakfast
-    FoodState meal
-    FoodState snack
+    RatingVal breakfast
+    RatingVal meal
+    RatingVal snack
 }
 
+class Agenda {
+  Date day
+  Event event
+  Dictionary<Number, AgendaItem> agendas;
+}
 
-class Report {
+class AgendaItem {
   Date date
-  Ceremony ceremony
-  ToBring toBring
+  Event event
+  Tomorrow tomorrow
   Mood mood
   Poo poo
   Food food
   String comment
 }
 
-class Teacher {
-  String name
-  String tel
-  String mail
+class OneSignalKeys {
   String push
+  String id
+  String platform
+}
+
+class AesKeys {
+  String secureKey
+  String secureIV
+}
+
+class UserInfo {
+  Number index
+  String uuid
+  String name
+  String mail
+  String picture
+  OneSignalKeys push
+  AesKeys aes
+}
+
+class Follower extends UserInfo {
+  Number idOnTeacherApp
+  String tel
+  String relationship
+}
+
+class Teacher extends UserInfo {
+
 }
 
 class Centre {
@@ -70,15 +105,11 @@ class Child {
   String name
   String image
   Date birthdate
-  Report[] reports
+  AgendaItem[] agendaItems
 }
 
-Report o-- Child
-Ceremony o-- Report
-ToBring o-- Report
-Mood  o-- Report
-Poo o-- Report
-Food o-- Report
-PooType o-- Poo
-FoodState o-- Food
+Event o-- AgendaItem
+Tomorrow o-- AgendaItem
+Poo o-- AgendaItem
+Food o-- AgendaItem
 @enduml

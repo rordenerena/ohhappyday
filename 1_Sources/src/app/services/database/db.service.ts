@@ -152,7 +152,7 @@ export class DbService {
    * @param key 
    */
   private async getIndex(key: Keys) {
-    let indexes = await this.db.get('index');
+    let indexes = await this.db.get(Keys.INDEX);
     
     if(indexes) {
       return indexes[key] ? indexes[key] : 0;
@@ -162,12 +162,12 @@ export class DbService {
   }
 
   private async setIndex(key: Keys, index: number) {
-    let indexes = await this.db.get('index');
+    let indexes = await this.db.get(Keys.INDEX);
     if(indexes === null) {
       indexes = {};
     }
     indexes[key] = index;
-    await this.db.set('index', indexes);
+    await this.db.set(Keys.INDEX, indexes);
   }
 
   /**

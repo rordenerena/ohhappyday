@@ -2,6 +2,7 @@ import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 
 export enum Keys {
+    INDEX = 'index',
     PROFILE = 'profile',
     USER_INFO = 'userInfo',
     CENTRE = 'centre',

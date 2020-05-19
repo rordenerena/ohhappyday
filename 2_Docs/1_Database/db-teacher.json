@@ -1,139 +1,271 @@
 {
     "$schema": "http://json-schema.org/schema",
     "properties": {
-        "version": {
-            "type": "number"
+        "index": {
+            "type": "object",
+            "properties": {
+                "profile": {
+                    "type": "number"
+                },
+                "userInfo": {
+                    "type": "number"
+                },
+                "centre": {
+                    "type": "number"
+                },
+                "children": {
+                    "type": "number"
+                },
+                "configured": {
+                    "type": "number"
+                },
+                "follower": {
+                    "type": "number"
+                },
+                "agenda": {
+                    "type": "number"
+                }
+            }
         },
-        "teacher": {
+        "profile": {
+            "type": "string",
+            "enum": ["teacher", "follower"]
+        },
+        "configured": {
+            "type": "boolean"
+        },
+        "userInfo": {
+            "type": "object",
+            "properties": {
+                "index": {
+                    "type": "number"
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "mail": {
+                    "type": "string"
+                },
+                "picture": {
+                    "type": "string"
+                },
+                "push": {
+                    "type": "object",
+                    "properties": {
+                        "push": {
+                            "type": "string"
+                        },
+                        "id": {
+                            "type": "string"
+                        },
+                        "platform": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "platform": {
+                    "type": "string"
+                },
+                "aes": {
+                    "type": "object",
+                    "properties": {
+                        "secureKey": {
+                            "type": "string"
+                        },
+                        "secureIV": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "idOnTeacherApp": {
+                    "type": "number",
+                    "description": "Sólo será usado por perfil Follower"
+                },
+                "tel": {
+                    "type": "string",
+                    "description": "Sólo será usado por perfil Follower"
+                },
+                "relationship": {
+                    "type": "string",
+                    "description": "Sólo será usado por perfil Follower"
+                }
+            }
+        },        
+        "centre": {
+            "index": {
+                "type": "number"
+            },
+            "uuid": {
+                "type": "string"
+            },
             "name": {
                 "type": "string"
             },
             "mail": {
                 "type": "string"
             },
-            "image": {
-                "type": "string",
-                "description": "Imagen en base64"
-            },
-            "push": {
-                "type": "string"
-            }
-        },
-        "centre": {
-            "name": {
+            "picture": {
                 "type": "string"
             },
             "tel": {
                 "type": "string"
             },
-            "mail": {
+            "address": {
                 "type": "string"
-            },
-            "image": {
-                "type": "string",
-                "description": "Imagen en base64"
             }
         },
         "children": {
-            "type": "array",
-            "items": {
-                "type" :"object",
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    },
-                    "birthdate": {
-                        "type" : "string"
-                    },
-                    "image": {
-                        "type": "string",
-                        "description": "Imagen en base64"
-                    },
-                    "followers": {
-                        "type":"array",
-                        "items": {
-                            "type":"object",
-                            "properties": {
-                                "name": {
-                                    "type": "string"
-                                },
-                                "relationship": {
-                                    "type": "string"
-                                },
-                                "mail": {
-                                    "type": "string"
-                                },
-                                "tel": {
-                                    "type": "string"
-                                },
-                                "push": {
-                                    "type": "array",
-                                    "items": {
-                                        "type":"string"
+            "type" :"object",
+            "properties": {
+                "index": {
+                    "type": "number"
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "birthdate": {
+                    "type" : "string"
+                },
+                "picture": {
+                    "type": "string",
+                    "description": "Imagen en base64"
+                },
+                "teacher": {
+                    "type": "<<UserInfo>>",
+                    "description": "Sólo para Seguidor"
+                },
+                "indexForTeacher": {
+                    "type": "number",
+                    "description": "Sólo para Seguidor"
+                },
+                "followers": {
+                    "type":"array",
+                    "description": "Sólo para Educador",
+                    "items": {
+                        "type":"object",
+                        "properties": {
+                            "index": {
+                                "type": "number"
+                            },
+                            "uuid": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "relationship": {
+                                "type": "string"
+                            },
+                            "mail": {
+                                "type": "string"
+                            },
+                            "tel": {
+                                "type": "string"
+                            },
+                            "push": {
+                                "type": "object",
+                                "properties": {
+                                    "push": {
+                                        "type": "string"
+                                    },
+                                    "id": {
+                                        "type": "string"
                                     }
                                 }
                             }
                         }
-                    },
-                    "agenda": {
-                        "type": "object",
-                        "patternProperties": {
-                            "^\\d{1,2}\/\\d{1,2}\/\\d{4}$": {
-                                "type":"object",
-                                "properties": {
-                                    "ceremony": {
-                                        "type":"object",
-                                        "properties": {
-                                            "title": {
-                                                "type": "string"
-                                            },
-                                            "desc": {
-                                                "type": "string"
-                                            }
+                    }
+                }
+            }
+        },
+        "agenda": {
+            "type": "object",
+            "properties": {
+                "day": {
+                    "type": "string"
+                },
+                "event": {
+                    "type": "object",
+                    "properties": {
+                        "title": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "children": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^\\d*": {
+                            "type": "object",
+                            "properties": {
+                                "day": {
+                                    "type": "string"
+                                },
+                                "tomorrow": {
+                                    "type": "object",
+                                    "properties": {
+                                        "nappy": {
+                                            "type": "boolean"
+                                        },
+                                        "wipers": {
+                                            "type": "boolean"
+                                        },
+                                        "clothes": {
+                                            "type": "boolean"
+                                        },
+                                        "water": {
+                                            "type": "boolean"
                                         }
-                                    },
-                                    "tobring": {
-                                        "type":"object",
-                                        "properties": {
-                                            "nappy": {
-                                                "type":"boolean"
-                                            },
-                                            "wipe": {
-                                                "type":"boolean"
-                                            }
-                                        }
-                                    },
-                                    "mood": {
-                                        "type": "number"
-                                    },
-                                    "poo": {
-                                        "type":"object",
-                                        "properties": {
-                                            "times": {
-                                                "type":"number"
-                                            },
-                                            "type": {
-                                                "type":"number"
-                                            }
-                                        }
-                                    },
-                                    "food": {
-                                        "type":"object",
-                                        "properties": {
-                                            "breakfast": {
-                                                "type":"number"
-                                            },
-                                            "meal": {
-                                                "type":"number"
-                                            },
-                                            "snack": {
-                                                "type":"number"
-                                            }
-                                        }
-                                    },
-                                    "comments": {
-                                        "type": "string"
                                     }
+                                },
+                                "mood": {
+                                    "type": "string",
+                                    "enum": ["feliz", "cansad@","triste","molest@","enfadad@"]
+                                },
+                                "poo": {
+                                    "type": "object",
+                                    "properties": {
+                                        "times": {
+                                            "type": "number"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "enum": ["normal","blanda","diarrea","dura"]
+                                        }
+                                    }
+                                },
+                                "food": {
+                                    "type": "object",
+                                    "properties": {
+                                        "breakfast": {
+                                            "type":"string",
+                                            "enum": ["mal","bien","muybien"]
+                                        },
+                                        "meal": {
+                                            "type":"string",
+                                            "enum": ["mal","bien","muybien"]
+                                        },
+                                        "ingest": {
+                                            "type":"string",
+                                            "enum": ["mal","bien","muybien"]
+                                        }
+                                    }
+                                },
+                                "comments": {
+                                    "type": "string"
+                                },
+                                "owner": {
+                                    "type": "number",
+                                    "description": "Sólo para Seguidores"
                                 }
                             }
                         }
