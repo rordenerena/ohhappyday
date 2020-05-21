@@ -7,5 +7,5 @@
   "hideLogs": true,
   "backgroundColor": "#000000",
   "cordova": {},
-  "linuxAndroidStudioPath": "/home/rorden/apps/android-studio/bin/studio.sh"
+  "linuxAndroidStudioPath": "/snap/bin/android-studio"
 }

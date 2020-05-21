@@ -1,3 +1,6 @@
+import { OneSignalService } from './../../services/onesignal.service';
+import { ToastService } from './../../services/toast.service';
+import { PairingService } from './../../services/comm/pairing.service';
 import { DbService } from '../../services/database/db.service';
 import { MenuComponent } from './../../components/agenda/menu/menu.component';
 import { PopoverController } from '@ionic/angular';
@@ -20,7 +23,10 @@ export class StudentsPage implements OnInit {
 
   constructor(private db: DbService,
     private router: Router,
-    public popoverController: PopoverController) { 
+    public popoverController: PopoverController,
+    private pairingService: PairingService,
+    private toastService: ToastService,
+    private oneSignalService: OneSignalService) { 
     
   }
 
@@ -88,6 +94,7 @@ export class StudentsPage implements OnInit {
       componentProps: {
         "profile-teacher": "Mi perfil",
         "profile-centre": "Centro educacional",
+        "resend-pushIds": "Actualizar IDs de comunicación",
         "about": "Acerca de"
       },
       event: ev
@@ -97,7 +104,16 @@ export class StudentsPage implements OnInit {
     const {data} = await popover.onDidDismiss();
 
     if(data && data.op) {
-      this.router.navigate([data.op], {queryParams: {status: 'edit'}});
+      switch(data.op) {
+        case "resend-pushIds":
+          await this.oneSignalService.checkToken(true);
+          await this.pairingService.reInvite();
+          this.toastService.toast(`Identificadores vigentes enviados a todos los familiares de alumnos`);
+          break;
+        default:
+          this.router.navigate([data.op], {queryParams: {status: 'edit'}});
+          break;
+      }
     }
   }
  

@@ -69,55 +69,14 @@ export class ProfileFollowerPage implements OnInit {
     this.child.followers.push(this.entity);
     
     await this.db.setChild(this.child);
-
-    await this.requestSendInvitation(this.entity);
-
-  }
-
-  /**
-   * Request a confirmation to send an invitation to the follower
-   * signed up.
-   * @param follower 
-   */
-  async requestSendInvitation(follower: Follower) {
-    const alert = await this.alertController.create({
-      header: "Invitación",
-      subHeader: `¿Enviar invitación a ${follower.name}?`,
-      buttons: [
-        {
-          text: 'No',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (blah) => {
-            this.returnToProfileChild();
-          }
-        }, {
-          text: 'Sí',
-          handler: async () => {
-            await this.sendInvitation(follower);
-            this.returnToProfileChild();
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
-
-  /**
-   * Send mail invitation to the follower.
-   * @param follower 
-   */
-  async sendInvitation(follower: Follower) {
-    let teacher = await this.db.getTeacher();
-    this.pairingService.invite(teacher, follower, this.child);
+    await this.returnToProfileChild();
   }
 
   /**
    * Return to the profile child page.
    */
   async returnToProfileChild() {
-    this.router.navigate(['/profile-child'], {queryParams: {child: this.child.index}});
+    this.router.navigate(['/profile-child'], {queryParams: {child: this.child.index, confirmSendPairing: this.entity.index}});
   }
 
 }

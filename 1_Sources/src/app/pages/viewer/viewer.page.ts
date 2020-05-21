@@ -44,15 +44,17 @@ export class ViewerPage implements OnInit {
     private onesignal: OneSignalService,
     private changeDetector: ChangeDetectorRef) {
     this.onesignal.change.subscribe(async (event) => {
-      debugger;
       if (event.page === 'viewer') {
-        await this.startupNext(event.data.child, undefined);
+        debugger;
+        if(this.entity) {
+          await this.startupNext(this.entity.index, this.agenda.day);
+        }
       } else if (event.page === 'agenda') {
-        if (event.data.child === this.entity.index && event.data.day === this.agenda.day) {
+        debugger;
+        if (event.data.child === this.entity.indexForTeacher && event.data.day === this.agenda.day) {
           // this.startupNext(event.data.child, event.data.day);
           await this.loadAgendaFor(event.data.day);
           this.changeDetector.detectChanges();
-
         }
       }
     })
@@ -138,13 +140,13 @@ export class ViewerPage implements OnInit {
         await this.setNextAndPrevious(this.entity.index);
         await this.updateAgenda(day);
       } else {
-        this.router.navigate(['/']);
+        this.router.navigate(['/viewer']);
       }
     } else {
       if (childrens.length > 0) {
         this.router.navigate(['/viewer'], { queryParams: { child: childrens[0] } });
       } else {
-        this.router.navigate(['/'])
+        this.router.navigate(['/viewer'])
       }
     }
     this.childrens = childrens;
@@ -192,6 +194,8 @@ export class ViewerPage implements OnInit {
   async showMenu(ev: any) {
     let options = {
       "profile-child": `Perfil de ${this.entity.name}`,
+      "profile-teacher": `Perfil del educador`,
+      "profile-centre": `Perfil del centro`,
       "add-children": "Añadir nuevo hij@ (QR)",
       "sent-pushids": "Reenviar IDs de comunicación",
       "about": "Acerca de"
@@ -211,6 +215,12 @@ export class ViewerPage implements OnInit {
     switch (data.op) {
       case 'profile-child':
         this.toProfile();
+        break;
+      case 'profile-teacher':
+        this.router.navigate(['/profile-teacher'], { queryParams: { viewer: true, child: this.entity.index } });
+        break;
+      case 'profile-centre':
+        this.router.navigate(['/profile-centre'], { queryParams: { viewer: true } });
         break;
       case 'add-children':
         this.scan();

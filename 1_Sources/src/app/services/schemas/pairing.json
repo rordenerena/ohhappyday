@@ -58,7 +58,24 @@
       "f": {
         "type": "number",
         "description": "The ID of Follower in Teacher App"
+      },
+      "ec": {
+        "type": "object",
+        "properties": {
+          "n": {
+            "type": "string"
+          },
+          "m": {
+            "type": "string"
+          },
+          "t": {
+            "type": "string"
+          },
+          "a": {
+            "type": "string"
+          }
+        }
       }
     },
-    "required": ["v", "t", "c", "f"]
+    "required": ["v", "t", "c", "f", "ec"]
   }

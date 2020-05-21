@@ -1,9 +1,9 @@
 import { CentreInfo } from '../../services/database/db.entities';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import { DbService } from '../../services/database/db.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-profile-centre',
@@ -14,19 +14,20 @@ export class ProfileCentrePage implements OnInit {
 
   entityInfo: CentreInfo = new CentreInfo();
   edit: boolean = false;
+  viewer: boolean = false;
 
   public formData: FormGroup;
 
   constructor(private router: Router,
     private formBuilder: FormBuilder,
     private db: DbService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private detectorChange: ChangeDetectorRef) {
     this.updateForm();
   }
 
   ngOnInit() {
     this.getQueryParams();
-    this.loadData();
   }
 
   /**
@@ -36,7 +37,11 @@ export class ProfileCentrePage implements OnInit {
     this.route.queryParams.subscribe(async params => {
       if (params.status && params.status === 'edit') {
         this.edit = true;
+      } else if (params.viewer) {
+        this.viewer = true;
       }
+      await this.loadData();
+      this.detectorChange.detectChanges();
     });
   }
 

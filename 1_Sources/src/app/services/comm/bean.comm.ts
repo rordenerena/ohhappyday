@@ -1,22 +1,111 @@
-import { Teacher, ChildInfo, Follower, OneSignalIds } from './../database/db.entities';
+import { ChildManagerService } from './childmanager.service';
+import { CentreInfo } from './../database/db.entities';
 import { SignMessage } from './../../app.const';
-import { ApiOp, VERSION } from '../../app.const';
-import { Agenda, AgendaItem, ChildInfoFollower, EventDay, ChildInfoTeacher, RatingVal, getMoodStatus, getpooType } from '../database/db.entities';
+import { ApiOp } from '../../app.const';
+import { Teacher, ChildInfo, Follower, OneSignalIds,Agenda, AgendaItem, ChildInfoFollower, EventDay, ChildInfoTeacher, RatingVal, getMoodStatus, getpooType } from '../database/db.entities';
 
 import Ajv from 'ajv'
 
 import PairingSchema from './../schemas/pairing.json';
 
-export class ApiInviteObject extends SignMessage {
-
+export class ApiReInviteObject extends SignMessage {
     /**
-     * Version of API for this message
+    * Operation
+    */
+    op = ApiOp.PAIRING_REINVITE;
+    /**
+     * Child id
      */
-    v = VERSION;
+    c: number;
+    /**
+     * Group information
+     */
+    data: any = {
+
+        /**
+         * Teacher information
+         */
+        t: {
+            /**
+             * Mail of teacher
+             */
+            m: "",
+            /**
+             * Push token
+             */
+            p: "",
+            /**
+             * ID from OneSignal
+             */
+            i: "",
+            /**
+             * Name
+             */
+            n: "",
+            /**
+             * AES Key
+             */
+            ak: "",
+            /**
+             * AES IV
+             */
+            ai: ""
+        }
+    }
+
+    public static encode(teacher: Teacher, ch: ChildInfoTeacher): ApiReInviteObject {
+        let io = new ApiReInviteObject();
+        io.c = ch.index;
+        io.data.t = {
+            m: encodeURI(teacher.mail),
+            p: encodeURI(teacher.push ? teacher.push.push : null),
+            i: encodeURI(teacher.push ? teacher.push.id : null),
+            n: encodeURI(teacher.name),
+            ai: encodeURI(teacher.aes.secureIV),
+            ak: encodeURI(teacher.aes.secureKey)
+        };
+        return io;
+    }
+
+    public static decode(json: ApiReInviteObject): [Teacher, number] {
+        let teacher = new Teacher();
+        teacher.name = decodeURI(json.data.t.n);
+        teacher.mail = decodeURI(json.data.t.m);
+        teacher.push = new OneSignalIds();
+        teacher.push.push = decodeURI(json.data.t.p);
+        teacher.push.id = decodeURI(json.data.t.i);
+        teacher.aes.secureIV = decodeURI(json.data.t.ai);
+        teacher.aes.secureKey = decodeURI(json.data.t.ak);
+
+        let childId = json.c;
+
+        return [teacher, childId];
+    }
+
+    static toString(obj: ApiReInviteObject): string {
+        return `${obj.v}${obj.op}${obj.c}${obj.data.t.n}${obj.data.t.m}${obj.data.t.p}${obj.data.t.i}${obj.data.t.ai}${obj.data.t.ak}`;
+    }
+}
+
+export class ApiInviteObject extends SignMessage {
     /**
      * Operation
      */
     op = ApiOp.PAIRING_INVITE;
+    /**
+     * Children information
+     */
+    c = {
+        /**
+         * Index of teacher app, for easy recognition in
+         * message exchanged between both
+         */
+        i: 0,
+        /**
+         * Name of children
+         */
+        n: ""
+    };
     /**
      * Teacher information
      */
@@ -50,23 +139,30 @@ export class ApiInviteObject extends SignMessage {
          */
         ai: ""
     };
-    /**
-     * Children information
-     */
-    c = {
-        /**
-         * Index of teacher app, for easy recognition in
-         * message exchanged between both
-         */
-        i: 0,
-        /**
-         * Name of children
-         */ 
-        n: ""
-    };
     f: number;
+    /**
+     * Educational Centre Information
+     */
+    ec = {
+        /**
+         * Centre name
+         */
+        n: "",
+        /**
+         * Centre mail
+         */
+        m: "",
+        /**
+         * Centre telephone
+         */
+        t: "",
+        /**
+         * Centre Address
+         */
+        a: ""
+    };
 
-    static encode(teacher: Teacher, child: ChildInfo, follower: Follower, platform: string) {
+    static encode(teacher: Teacher, child: ChildInfo, follower: Follower, centre: CentreInfo, platform: string) {
         let io = new ApiInviteObject();
         io.t = {
             m: encodeURI(teacher.mail),
@@ -77,6 +173,12 @@ export class ApiInviteObject extends SignMessage {
             ai: encodeURI(teacher.aes.secureIV),
             ak: encodeURI(teacher.aes.secureKey)
         };
+        io.ec = {
+            n: encodeURI(centre.name),
+            m: encodeURI(centre.mail),
+            t: encodeURI(centre.tel),
+            a: encodeURI(centre.address)
+        }
         io.c = {
             i: child.index,
             n: encodeURI(child.name),
@@ -86,7 +188,7 @@ export class ApiInviteObject extends SignMessage {
     }
 
 
-    static decode(me: Follower, json: ApiInviteObject): [ChildInfoFollower, Follower] {
+    static decode(me: Follower, json: ApiInviteObject): [ChildInfoFollower, Follower, CentreInfo] {
         let teacher = new Teacher();
         teacher.name = decodeURI(json.t.n);
         teacher.mail = decodeURI(json.t.m);
@@ -97,6 +199,12 @@ export class ApiInviteObject extends SignMessage {
         teacher.aes.secureIV = decodeURI(json.t.ai);
         teacher.aes.secureKey = decodeURI(json.t.ak);
 
+        let centre  = new CentreInfo();
+        centre.name = decodeURI(json.ec.n);
+        centre.mail = decodeURI(json.ec.m);
+        centre.tel = decodeURI(json.ec.t);
+        centre.address = decodeURI(json.ec.a);
+
         let child = new ChildInfoFollower();
         child.teacher = teacher;
         child.name = decodeURI(json.c.n);
@@ -104,7 +212,7 @@ export class ApiInviteObject extends SignMessage {
 
         me.idOnTeacherApp = json.f;
 
-        return [child, me];
+        return [child, me, centre];
     }
 
     static check(pairedObj: ApiInviteObject) {
@@ -118,8 +226,6 @@ export class ApiInviteObject extends SignMessage {
 }
 
 export class ApiResponseObject extends SignMessage {
-
-    v = VERSION;
     /**
      * Operation
      */
@@ -199,7 +305,6 @@ export class ApiResponseObject extends SignMessage {
 
 
 export class ApiAgendaObject extends SignMessage {
-    v: number = VERSION;
     op: number = ApiOp.AGENDA_SEND;
     c: number; // Child index
     /**
@@ -207,11 +312,11 @@ export class ApiAgendaObject extends SignMessage {
      */
     data: any = {
         // Event title
-        et: "", 
+        et: "",
         // Event description
         ed: "",
         // Day of agenda
-        d: "", 
+        d: "",
         // Nappy
         tn: false,
         // Wiper
@@ -225,15 +330,15 @@ export class ApiAgendaObject extends SignMessage {
         // Poo Times
         pv: 0,
         // Poo Type
-        pt: "", 
+        pt: "",
         // Breakfast quality
-        fb: undefined, 
+        fb: undefined,
         // Meal quality
         fm: undefined,
-         // Ingest quality
+        // Ingest quality
         fi: undefined,
         // Comments
-        cm: "" 
+        cm: ""
     }
 
     static toString(obj: ApiAgendaObject): string {
@@ -289,23 +394,22 @@ export class ApiAgendaObject extends SignMessage {
 }
 
 export class ApiChildDelete extends SignMessage {
-  v = VERSION;
-  op = ApiOp.DELETE_CHILD;
-  c: number;
+    op = ApiOp.DELETE_CHILD;
+    c: number;
 
-  static encode(child: ChildInfoTeacher): ApiChildDelete {
-    let c = new ApiChildDelete();
-    c.c = child.index;
-    return c;
-  }
+    static encode(child: ChildInfoTeacher): ApiChildDelete {
+        let c = new ApiChildDelete();
+        c.c = child.index;
+        return c;
+    }
 
-  static decode(data: ApiChildDelete): ChildInfoTeacher {
-    let c = new ChildInfoTeacher();
-    c.index = data.c;
-    return c;
-  }
+    static decode(data: ApiChildDelete): ChildInfoTeacher {
+        let c = new ChildInfoTeacher();
+        c.index = data.c;
+        return c;
+    }
 
-  static toString(obj: ApiChildDelete) {
-      return `${obj.v}${obj.op}${obj.c}`;
-  }
+    static toString(obj: ApiChildDelete) {
+        return `${obj.v}${obj.op}${obj.c}`;
+    }
 }

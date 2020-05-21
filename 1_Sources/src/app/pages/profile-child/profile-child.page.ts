@@ -7,7 +7,7 @@ import { PairingService } from '../../services/comm/pairing.service';
 import { Router } from '@angular/router';
 import { Follower, ChildInfoTeacher, ProfileType } from '../../services/database/db.entities';
 import { Component, OnInit, SimpleChanges, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, ControlValueAccessor } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController, PopoverController } from '@ionic/angular';
 
@@ -23,6 +23,7 @@ export class ProfileChildPage implements OnInit {
   public formData: FormGroup;
   title: string = '';
   formHasChanged: Boolean = false;
+  isTeacher: boolean;
 
   constructor(private router: Router,
     private formBuilder: FormBuilder,
@@ -36,6 +37,9 @@ export class ProfileChildPage implements OnInit {
     private onesignal: OneSignalService,
     private changeDetector: ChangeDetectorRef) {
     this.updateForm();
+    this.db.getProfileType().then( type => {
+      this.isTeacher = type === ProfileType.TEACHER;
+    });
     this.onesignal.change.subscribe(async (event) => {
       debugger;
       if (event.page === 'profile-child') {
@@ -92,6 +96,14 @@ export class ProfileChildPage implements OnInit {
       } else {
         this.title = "Nuev@ niñ@";
       }
+
+      if(params.confirmSendPairing) {
+        this.entity.followers.forEach(follower => {
+          if(follower.index == params.confirmSendPairing) {
+            this.requestSendInvitation(follower);
+          }
+        });
+      }
       if (params.op && params.op === "new") {
         this.entity = new ChildInfoTeacher();
         this.updateForm();
@@ -103,7 +115,6 @@ export class ProfileChildPage implements OnInit {
    * Save the entity and recover his stored information
    */
   private async save() {
-    // TODO: Save the children with followers
     let v = Object.assign(this.entity, this.formData.value);
     this.entity = <ChildInfoTeacher>await this.db.setChild(v);
   }
@@ -117,7 +128,7 @@ export class ProfileChildPage implements OnInit {
    */
   async submit() {
     this.save();
-    (await this.db.getProfileType() == ProfileType.TEACHER) ? this.router.navigate(['/students']) : this.router.navigate(['/viewer']);
+    this.router.navigate([await this.db.getInitialPage()]);
     // this.router.navigate(['/']);
   }
 
@@ -157,6 +168,7 @@ export class ProfileChildPage implements OnInit {
               }
             });
             await this.save();
+            // TODO: Notify to the follower
           }
         }
       ]
@@ -182,7 +194,8 @@ export class ProfileChildPage implements OnInit {
           text: 'Sí',
           handler: async () => {
             let teacher = await this.db.getTeacher();
-            this.pairingService.invite(teacher, follower, this.entity);
+            let centre = await this.db.getCentreInfo();
+            this.pairingService.invite(teacher, follower, centre, this.entity);
           }
         }
       ]
@@ -198,7 +211,7 @@ export class ProfileChildPage implements OnInit {
   async showMenu(ev: any) {
     let options = {
       "delete-child": "Eliminar alumno",
-      "refresh-push-token": "Solicitar IDs Push",
+      "refresh-push-token": "Actualizar Push IDs",
       "about": "Acerca de"
     };
     const popover = await this.popoverController.create({
@@ -249,7 +262,7 @@ export class ProfileChildPage implements OnInit {
             if (ptype == ProfileType.TEACHER) {
               await this.childManagerService.deleteChild(this.entity);
               this.router.navigate(['/students']);
-            } else if (ptype === ProfileType.FOLLOWER) {
+            } else if (ptype == ProfileType.FOLLOWER) {
               this.router.navigate(['/viewer']);
             }
           }

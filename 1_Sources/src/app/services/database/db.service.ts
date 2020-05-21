@@ -1,4 +1,4 @@
-import { Agenda, Keys, Teacher, ProfileType, Follower, UserBase, CentreInfo, ChildInfo, ChildInfoFollower } from './db.entities';
+import { Agenda, Keys, Teacher, ProfileType, Follower, UserBase, CentreInfo, ChildInfo, ChildInfoFollower, Index } from './db.entities';
 import { environment } from 'src/environments/environment.prod';
 import { Injectable} from '@angular/core';
 import { Storage } from '@ionic/storage';
@@ -54,6 +54,13 @@ export class DbService {
   async getProfileType(): Promise<ProfileType> {
     return await this.db.get(Keys.PROFILE);
   }
+  async getInitialPage(): Promise<string> {
+    if(await this.isConfigured()) {
+      return (await this.getProfileType() == ProfileType.TEACHER) ? '/students' : '/viewer';
+    } else {
+      return "/init";
+    }
+  }
 
   async setTeacher(value: Teacher) {
     await this.db.set(Keys.USER_INFO, value);
@@ -87,8 +94,15 @@ export class DbService {
   }
 
   async setCentreInfo(value: CentreInfo) {
-    console.log("Saving: ", value);
+    console.log("Saving CentreInfo: ", value);
+    await this.setObjectIndex(value, Keys.CENTRE);
     await this.db.set(Keys.CENTRE, value);
+  }
+
+  async setObjectIndex(index: Index, key: Keys) {
+    if(index.index == null) {
+      index.index = await this.getNext(key);
+    }
   }
 
   async getCentreInfo(): Promise<CentreInfo> {

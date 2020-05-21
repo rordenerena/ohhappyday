@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons *ngIf="edit"  slot="start">
+    <ion-buttons *ngIf="edit || viewer"  slot="start">
       <ion-back-button defaultHref="/students"></ion-back-button>
     </ion-buttons>
 
@@ -14,7 +14,7 @@
     <ion-grid>
       <ion-row class="ion-align-items-center ion-text-center">
         <ion-col>
-          <app-profile-picture class="avatar" name="picture" formControlName="picture"></app-profile-picture>
+          <app-profile-picture disabled="{{viewer}}" class="avatar" name="picture" formControlName="picture"></app-profile-picture>
         </ion-col>
       </ion-row>
       <ion-row class="ion-align-items-center ion-text-center">
@@ -68,13 +68,13 @@
     
     
     
-    <ion-fab *ngIf="!edit"  vertical="bottom" horizontal="center" style="position: fixed;">
+    <ion-fab *ngIf="!edit && !viewer"  vertical="bottom" horizontal="center" style="position: fixed;">
       <ion-fab-button type="button" [disabled]="!formData.valid" (click)="submitForm()" >
         <ion-icon name="arrow-forward-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab>
     
-    <ion-fab *ngIf="edit"  vertical="bottom" horizontal="center" style="position: fixed;">
+    <ion-fab *ngIf="edit && !viewer"  vertical="bottom" horizontal="center" style="position: fixed;">
       <ion-fab-button type="button" [disabled]="!formData.valid" (click)="submitForm()" >
         <ion-icon name="save-outline"></ion-icon>
       </ion-fab-button>

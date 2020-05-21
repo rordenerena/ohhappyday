@@ -13,9 +13,14 @@ export enum ApiOp {
   PAIRING_INVITE,
   PAIRING_RESPONSE,
   AGENDA_SEND,
-  DELETE_CHILD
+  DELETE_CHILD,
+  PAIRING_REINVITE
 }
 
-export class SignMessage {
+export class ApiBase {
+  v = VERSION;
+}
+
+export class SignMessage extends ApiBase {
   sign: string;
 }

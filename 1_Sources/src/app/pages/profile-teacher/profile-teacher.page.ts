@@ -1,5 +1,7 @@
+import { ChildInfoFollower } from './../../services/database/db.entities';
+import { ViewerPage } from './../viewer/viewer.page';
 import { Teacher } from '../../services/database/db.entities';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import { DbService } from '../../services/database/db.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -12,14 +14,16 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 })
 export class ProfileTeacherPage implements OnInit {
 
-  userInfo: Teacher = new Teacher();
+  entity: Teacher = new Teacher();
   edit: boolean = false;
+  viewer: boolean = false;
   public personalForm: FormGroup;
 
   constructor(private router: Router,
     private formBuilder: FormBuilder,
     private db: DbService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private detectorChange: ChangeDetectorRef) {
     this.updateForm();
   }
 
@@ -29,15 +33,14 @@ export class ProfileTeacherPage implements OnInit {
    */
   updateForm() {
     this.personalForm = this.formBuilder.group({
-      picture: [this.userInfo.picture],
-      name: [this.userInfo.name, Validators.required],
-      mail: [this.userInfo.mail, Validators.required]
+      picture: [this.entity.picture],
+      name: [this.entity.name, Validators.required],
+      mail: [this.entity.mail, Validators.required]
     });
   }
 
   ngOnInit() {
     this.getQueryParams();
-    this.loadData();
   }
 
   /**
@@ -47,6 +50,11 @@ export class ProfileTeacherPage implements OnInit {
     this.route.queryParams.subscribe(async params => {
       if (params.status && params.status === 'edit') {
         this.edit = true;
+        await this.loadData();
+      } else if(params.viewer) {
+        this.viewer = params.viewer;
+        await this.loadData(params.child);
+        this.detectorChange.detectChanges();
       }
     });
   }
@@ -55,11 +63,24 @@ export class ProfileTeacherPage implements OnInit {
    * Read from DB the stored information for this page,
    * ie, the teacher identity
    */
-  async loadData() {
-    let data: Teacher = await this.db.getTeacher();
+  async loadData(child: any = false) {
+
+    let data: Teacher;
+
+    if(child!==false) {
+      let c : ChildInfoFollower = (<ChildInfoFollower> await this.db.getChild(child));
+      if(c) {
+        data = c.teacher;
+      } else {
+        this.router.navigate([await this.db.getInitialPage()]);
+      }
+    } else {
+      data = await this.db.getTeacher();
+    }
+
 
     if (data) {
-      Object.assign(this.userInfo, data);
+      Object.assign(this.entity, data);
     }
     this.updateForm();
   }
@@ -67,15 +88,15 @@ export class ProfileTeacherPage implements OnInit {
   /**
    * Save the teacher to DB
    */
-  async save(userInfo: Teacher) {
-    await this.db.setTeacher(userInfo);
+  async save(entity: Teacher) {
+    await this.db.setTeacher(entity);
   }
 
   /**
    * Submit form is like: save entity and navigte to next page
    */
   async submitForm(edit: boolean = false) {
-    await this.save(Object.assign(this.userInfo, this.personalForm.value));
+    await this.save(Object.assign(this.entity, this.personalForm.value));
     if(!edit) {
       this.router.navigate(['/profile-centre']);
     } else {

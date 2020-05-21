@@ -18,15 +18,14 @@ export class InitPage implements OnInit {
   constructor(private router: Router, private db: DbService) { }
 
   ngOnInit() {
+    
   }
 
   /**
    * Button "Padres" pressed
    */
   async toViewer() {
-    if (environment.production) {
-      this.db.setProfileType(ProfileType.FOLLOWER);
-    }
+    this.db.setProfileType(ProfileType.FOLLOWER);
     this.router.navigate(['/viewer']);
   }
 
@@ -34,12 +33,8 @@ export class InitPage implements OnInit {
    * Button "Educador" pressed
    */
   async toTeacher() {
-    if (!environment.production && await this.db.getCentreInfo() != null) {
-      this.router.navigate(['/students']);
-    } else {
-      this.db.setProfileType(ProfileType.TEACHER);
-      this.router.navigate(['/profile-teacher']);
-    }
+    this.db.setProfileType(ProfileType.TEACHER);
+    this.router.navigate(['/profile-teacher']);
   }
 
   /**

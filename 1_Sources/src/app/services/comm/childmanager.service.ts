@@ -35,7 +35,9 @@ export class ChildManagerService {
       let cf = <ChildInfoFollower>childrens[i];
       if (cf.indexForTeacher == data.c) {
         if (SignService.verify(data, cf.teacher.aes.secureKey)) {
-          await this.db.deleteChild(cf.index);
+          cf.deleted = true;
+          await this.db.setChild(cf);
+          // await this.db.deleteChild(cf.index);
           return true;
         } else {
           this.toastService.toast(`Mensaje no verificado para el estudiante: '${cf.name}'`)

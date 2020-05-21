@@ -36,6 +36,9 @@
 </ion-grid>
 
 <ion-content *ngIf="areChilds()"  (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">
+  <ion-item color="danger" *ngIf="entity && entity.deleted" class="ion-text-center" style="height: " >
+    <ion-label>Perfil sin profesor</ion-label>
+  </ion-item>
   <app-datepicker (onChange)="changeDate($event)" [value]="agenda.day" [viewer]="true"></app-datepicker>
   <div *ngIf="agendaItem" >
     <app-dayevent [value]="agenda.event" [viewer]="true"></app-dayevent>

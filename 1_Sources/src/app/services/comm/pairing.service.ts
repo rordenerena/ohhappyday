@@ -1,5 +1,6 @@
+import { UserBase, CentreInfo } from './../database/db.entities';
 import { AesService } from './../aes.service';
-import { ApiResponseObject, ApiInviteObject } from './bean.comm';
+import { ApiResponseObject, ApiInviteObject, ApiReInviteObject } from './bean.comm';
 import { ToastService } from './../toast.service';
 import { SignService } from './../sign.service';
 import { PlatformService } from './../platform.service';
@@ -28,9 +29,9 @@ export class PairingService {
   /**
    * Paso 1: Enviar e-mail para crear el hijo en Follower
    */
-  invite(teacher: Teacher, follower: Follower, child: ChildInfoTeacher) {
-    if( teacher.push ) {
-      let obj = ApiInviteObject.encode(teacher, child, follower, this.platform.getPlatform());
+  invite(teacher: Teacher, follower: Follower, centre: CentreInfo, child: ChildInfoTeacher) {
+    if (teacher.push) {
+      let obj = ApiInviteObject.encode(teacher, child, follower, centre, this.platform.getPlatform());
       let qrcode = this.qrCode.genQRCode(obj);
       this.mailService.sendPairing(teacher, follower, child, qrcode);
     } else {
@@ -55,10 +56,12 @@ export class PairingService {
       // Es válido
       let child: ChildInfoFollower;
       let me: Follower = await this.db.getFollower();
-      [child, me] = ApiInviteObject.decode(me, json);
+      let centre: CentreInfo;
+      [child, me, centre] = ApiInviteObject.decode(me, json);
 
       await this.db.setChild(child);
       await this.db.setFollower(me);
+      await this.db.setCentreInfo(centre);
       await this.db.setConfigured();
 
       return child;
@@ -112,7 +115,7 @@ export class PairingService {
 
       [childrenIndex, followerId, ids] = ApiResponseObject.decode(data);
 
-      let child: ChildInfoTeacher = <ChildInfoTeacher>await this.db.getChild(data.c);
+      let child: ChildInfoTeacher = <ChildInfoTeacher>await this.db.getChild(childrenIndex);
 
       child.followers.forEach(f => {
         if (f.index === followerId) {
@@ -123,6 +126,47 @@ export class PairingService {
       await this.db.setChild(child);
     } else {
       this.toastService.toast(`Mensaje no verificado para el estudiante: '${(await this.db.getChild(data.c)).name}'`)
+    }
+  }
+
+  /**
+   * Send the puhs information to specific devices (followers)
+   * @param ids 
+   */
+  async reInvite() {
+    let me = await this.db.getUserBase();
+    // Tengo que enviar a cada child, el mensaje con el push actualizado
+    let ids: Array<any> = await this.db.getChildIds();
+    for (let i = 0; i < ids.length; i++) {
+      let ch: ChildInfoTeacher = <ChildInfoTeacher> await this.db.getChild(ids[i]);
+
+      let obj = ApiReInviteObject.encode(me, ch);
+      obj = SignService.sign(obj, me.aes.secureKey);
+      obj.data = await this.aesService.encrypt(me.aes, JSON.stringify(obj.data));
+      this.pushService.sendTeacherCommIds(ch, obj);
+    }
+
+  }
+
+  async reInviteReceived(data: ApiReInviteObject) {
+    let teacher: Teacher, childIndex: number;
+
+    let child: ChildInfoFollower = <ChildInfoFollower> await this.db.getChild(data.c);
+    data.data = await this.aesService.decrypt(child.teacher.aes, data.data);
+    data.data = JSON.parse(data.data);
+
+    if (SignService.verify(data, child.teacher.aes.secureKey)) {
+      [teacher, childIndex] = ApiReInviteObject.decode(data);
+
+      child.teacher.push = teacher.push;
+      child.teacher.name = teacher.name;
+      child.teacher.mail = teacher.mail;
+
+      await this.db.setChild(child);
+
+      this.toastService.toast("Actualización con éxito")
+    } else {
+      this.toastService.toast(`Mensaje no verificado para el estudiante: '${child.name}'`)
     }
   }
 }

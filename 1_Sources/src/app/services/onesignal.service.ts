@@ -7,7 +7,7 @@ import { DbService } from './database/db.service';
 import { AgendaService } from './comm/agenda.service';
 import { PairingService } from './comm/pairing.service';
 import { ApiOp } from '../app.const';
-import { OneSignalIds, UserBase, ChildInfoFollower } from './database/db.entities';
+import { OneSignalIds, UserBase, ChildInfoFollower, ChildInfoTeacher } from './database/db.entities';
 import { Injectable } from '@angular/core';
 
 import { OneSignal } from '@ionic-native/onesignal/ngx';
@@ -91,6 +91,11 @@ export class OneSignalService {
         }
       }
       await this.db.setUserBase(userInfo);
+
+      if(!retry) {
+        // Si tenemos nuevos IDs y no es un refresco a petición, enviamos a todos los followers
+        this.pairingService.reInvite();
+      }
     }
   }
 
@@ -173,12 +178,15 @@ export class OneSignalService {
         await this.agendaService.registerAgenda(data);
         this.change.next({page: 'agenda', data: { day: (<ApiAgendaObject>data).data.d, child: (<ApiAgendaObject>data).c }});
         break;
-        case ApiOp.DELETE_CHILD:
-          let b = await this.childManager.manageDeleteChild(data);
-          if(b) {
-            this.change.next({page: 'viewer', data: {child: -1}})
-          }
-          break;
+      case ApiOp.DELETE_CHILD:
+        let b = await this.childManager.manageDeleteChild(data);
+        if(b) {
+          this.change.next({page: 'viewer'})
+        }
+        break;
+      case ApiOp.PAIRING_REINVITE: 
+        await this.pairingService.reInviteReceived(data);
+        break;
     }
   }
 }

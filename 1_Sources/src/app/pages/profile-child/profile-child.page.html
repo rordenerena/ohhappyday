@@ -53,7 +53,7 @@
         </ion-grid>
       </div>
     </div>
-    <div class="childFollowers">
+    <div class="childFollowers" *ngIf="isTeacher"  >
       <ion-list>
         <ion-list-header>Familiares</ion-list-header>
         <div>
@@ -81,7 +81,7 @@
 
     <!-- BUTTONS -->
 
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="addFollower()">
+    <ion-fab *ngIf="isTeacher"  vertical="bottom" horizontal="end" slot="fixed" (click)="addFollower()">
       <ion-fab-button [disabled]="!formData.valid" >
         <ion-icon name="person-add-outline"></ion-icon>
       </ion-fab-button>

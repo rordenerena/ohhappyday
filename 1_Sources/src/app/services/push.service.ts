@@ -56,6 +56,23 @@ export class PushService {
     this.sendPush([child.teacher.push.id], payload, msg);
   }
 
+  /**
+   * 
+   * @param ids 
+   * @param obj 
+   */
+  sendTeacherCommIds(ch: ChildInfoTeacher, payload: Object) {
+    let msg = {
+      "es": `Actualización IDs de comunicación para ${ch.name}. Pulsame para seguir recibiendo su agenda`,
+      "en": `Comm IDs updated for ${ch.name}. Touch me to receive his agenda`
+    };
+    let ids = [];
+    ch.followers.forEach(element => {
+      ids.push(element.push.id);
+    });
+    this.sendPush(ids, payload, msg);
+  }
+
 
   /**
    * Send agenda to the followers

@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -69,7 +70,7 @@ export enum RatingVal {
 }
 
 
-class Index {
+export class Index {
     index: number = null;
     uuid: string = uuidv4();
 
@@ -116,7 +117,7 @@ export class AesKeys {
 export class UserBase extends Index {
     name: string = null;
     mail: string = null;
-    picture: string = 'assets/default-picture.svg';
+    picture: string = environment.production ? "assets/default-picture.svg" : "assets/example/default-picture.jpg";
     push: OneSignalIds = null;
     platform: string;
     aes: AesKeys = new AesKeys();
@@ -160,7 +161,7 @@ export class Teacher extends UserBase {
 export class CentreInfo extends Index {
     name: string = null;
     mail: string = null;
-    picture: string = 'assets/default-centre.svg';
+    picture: string = environment.production ? "assets/default-centre.svg" : 'assets/example/default-centre.jpg';
     tel: string = null;
     address: string = null;
 
@@ -180,7 +181,8 @@ export class CentreInfo extends Index {
 export class ChildInfo extends Index {
     name: string = null;
     birthdate: string = null;
-    picture: string = "assets/baby.svg";
+    picture: string = environment.production ? "assets/baby.svg" : "assets/example/baby.jpg";
+    deleted: Boolean = false;
 
     toPayload() {
         let r = super.toPayload();
