@@ -193,12 +193,12 @@ export class ViewerPage implements OnInit {
    */
   async showMenu(ev: any) {
     let options = {
-      "profile-child": `Perfil de ${this.entity.name}`,
-      "add-children": "Añadir nuevo hij@ (QR)",
-      "settings": "Preferencias"
+      "profile-child": "menu.profile-child-follower",
+      "add-children": "menu.child-new",
+      "settings": "menu.settings"
     };
     if (!environment.production) {
-      options["to-agenda"] = "DEV: Ver agenda de profesor";
+      options["to-agenda"] = "menu.dev.teacher";
     }
     const popover = await this.popoverController.create({
       component: MenuComponent,

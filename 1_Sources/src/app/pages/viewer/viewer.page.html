@@ -6,7 +6,7 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
 
-    <ion-title>Agenda de {{entity ? entity.name : ''}}</ion-title>
+    <ion-title translate [translateParams]="{name: entity ? entity.name : ''}">viewer.title</ion-title>
 
     <ion-buttons slot="end">
       <ion-button (click)="toProfile()">
@@ -37,7 +37,7 @@
 
 <ion-content *ngIf="areChilds()"  (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">
   <ion-item color="danger" *ngIf="entity && entity.deleted" class="ion-text-center" style="height: " >
-    <ion-label>Perfil sin profesor</ion-label>
+    <ion-label>{{'viewer.noteacher' | translate}}</ion-label>
   </ion-item>
   <app-datepicker (onChange)="changeDate($event)" [value]="agenda.day" [viewer]="true"></app-datepicker>
   <div *ngIf="agendaItem" >
@@ -61,7 +61,7 @@
         <img src="assets/agenda.svg" />
       </ion-thumbnail>
       <ion-text>
-        <h1>Sin parte para <br/>este día</h1>
+        <h1>{{'viewer.empty' | translate}}</h1>
       </ion-text>
     </div>
     <div class="tablecell"></div>
@@ -80,10 +80,10 @@
     <img src="assets/baby.svg" />
   </ion-thumbnail>
   <ion-text>
-    <h1>Sin hij@s<br /> en seguimiento</h1>
+    <h1>{{'viewer.nochildren' | translate}}</h1>
   </ion-text>
   <ion-text>
-    <h3>Deberá añadir a su hij@ escaneando el QR-Code facilitado por el educador</h3>
+    <h3>{{'viewer.steps' | translate}}</h3>
   </ion-text>
   <ion-thumbnail>
     <img src="assets/qrcode.svg" />

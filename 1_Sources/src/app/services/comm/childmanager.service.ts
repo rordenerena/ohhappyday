@@ -40,7 +40,7 @@ export class ChildManagerService {
           // await this.db.deleteChild(cf.index);
           return true;
         } else {
-          this.toastService.toast(`Mensaje no verificado para el estudiante: '${cf.name}'`)
+          this.toastService.toast("toast.msgnotverified", {name: cf.name});
           return false;
         }
       }

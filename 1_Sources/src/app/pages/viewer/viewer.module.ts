@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { TomorrowComponent } from './../../components/agenda/tomorrow/tomorrow.component';
 import { PooComponent } from './../../components/agenda/poo/poo.component';
 import { MoodComponent } from './../../components/agenda/mood/mood.component';
@@ -23,7 +24,8 @@ import { ViewerPage } from './viewer.page';
     IonicModule,
     ViewerPageRoutingModule,
     ComponentsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule
   ],
   entryComponents: [
     MenuComponent,

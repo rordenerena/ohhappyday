@@ -92,9 +92,9 @@ export class StudentsPage implements OnInit {
     const popover = await this.popoverController.create({
       component: MenuComponent,
       componentProps: {
-        "profile-teacher": "Mi perfil",
-        "profile-centre": "Centro educacional",
-        "settings": "Preferencias"
+        "profile-teacher": "menu.profile",
+        "profile-centre": "menu.centre",
+        "settings": "menu.settings"
         // "resend-pushIds": "Actualizar IDs de comunicación",
         // "about": "Acerca de"
       },

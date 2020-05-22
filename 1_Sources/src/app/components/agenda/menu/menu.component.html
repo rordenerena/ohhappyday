@@ -1,3 +1,3 @@
 <ion-list>
-  <ion-item *ngFor="let item of items" lines="none"  (click)="close(item.key)"> {{item.value}} </ion-item>
+  <ion-item *ngFor="let item of items" lines="none" (click)="close(item.key)"> {{item.value | translate}} </ion-item>
 </ion-list>

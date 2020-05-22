@@ -5,7 +5,7 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
 
-    <ion-title>Acerca de</ion-title>
+    <ion-title>{{ 'pages.about' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -14,20 +14,22 @@
   <ion-card>
     <img src="assets/promo.png" /> 
     <ion-card-header>
-      <ion-card-title>Oh! Happy Day</ion-card-title>
+      <ion-card-title>{{ 'app' | translate }}</ion-card-title>
     </ion-card-header>
   
     <ion-card-content>
-      Aplicación para la gestión de alumnos en guarderías y seguimiento por parte de sus familiares<br/>
-      <a href="https://raw.githubusercontent.com/rordenerena/ohhappyday/master/LICENSE">Licencia</a>
+      {{ 'app.description' | translate }}<br/>
+      <a href="https://raw.githubusercontent.com/rordenerena/ohhappyday/master/LICENSE">
+      {{ 'license' | translate }}
+    </a>
     </ion-card-content>
   </ion-card>
   
   <ion-card>
     <img src="assets/opensource.jpg" /> 
     <ion-card-content>
-      Open Source, Seguro, Privado, Coste 0<br/>
-      <a href="https://raw.githubusercontent.com/rordenerena/ohhappyday/master/CREDITS">Créditos</a><br/>
+      {{ 'targets' | translate }}<br/>
+      <a href="https://raw.githubusercontent.com/rordenerena/ohhappyday/master/CREDITS">{{ 'credits' | translate }}</a><br/>
       <a href="https://github.com/rordenerena/ohhappyday">GitHub</a><br/>
     </ion-card-content>
   </ion-card>

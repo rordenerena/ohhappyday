@@ -4,31 +4,31 @@
       <ion-thumbnail>
         <img src="assets/feliz.svg" />
       </ion-thumbnail>
-      <ion-label class="mood_label">Feliz</ion-label>
+      <ion-label class="mood_label">{{ 'mood.happy' | translate }}</ion-label>
     </ion-col>
     <ion-col (click)="moodSelect('cansad@')" [ngClass]="getMoodClass('cansad@')">
       <ion-thumbnail>
         <img src="assets/cansad@.svg" />
       </ion-thumbnail>
-      <ion-label class="mood_label">Cansad@</ion-label>
+      <ion-label class="mood_label">{{ 'mood.tired' | translate }}</ion-label>
     </ion-col>
     <ion-col (click)="moodSelect('triste')" [ngClass]="getMoodClass('triste')">
       <ion-thumbnail>
         <img src="assets/triste.svg" />
       </ion-thumbnail>
-      <ion-label class="mood_label">Triste</ion-label>
+      <ion-label class="mood_label">{{ 'mood.sad' | translate }}</ion-label>
     </ion-col>
     <ion-col (click)="moodSelect('molest@')" [ngClass]="getMoodClass('molest@')">
       <ion-thumbnail>
         <img src="assets/molest@.svg" />
       </ion-thumbnail>
-      <ion-label class="mood_label">Molelst@</ion-label>
+      <ion-label class="mood_label">{{ 'mood.annoy' | translate }}</ion-label>
     </ion-col>
     <ion-col (click)="moodSelect('enfadad@')" [ngClass]="getMoodClass('enfadad@')">
       <ion-thumbnail>
         <img src="assets/enfadad@.svg" />
       </ion-thumbnail>
-      <ion-label class="mood_label">Enfadad@</ion-label>
+      <ion-label class="mood_label">{{ 'mood.angry' | translate }}</ion-label>
     </ion-col>
   </ion-row>
 </ion-grid>

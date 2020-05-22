@@ -35,7 +35,7 @@ export class PairingService {
       let qrcode = this.qrCode.genQRCode(obj);
       this.mailService.sendPairing(teacher, follower, child, qrcode);
     } else {
-      this.toastService.toast("No es posible obtener los IDs de comunicación Push. Solícitelos a través del menú de esta ventana.", 3500);
+      this.toastService.toast("toast.fetchcommidagain",{}, 3500);
     }
   }
 
@@ -51,7 +51,7 @@ export class PairingService {
 
     if (!ApiInviteObject.check(json)) {
       console.error("No se ha validado el JSON con el esquema:", json);
-      throw "El código QR no es válido";
+      throw "toast.qrinvalid";
     } else {
       // Es válido
       let child: ChildInfoFollower;
@@ -125,7 +125,8 @@ export class PairingService {
 
       await this.db.setChild(child);
     } else {
-      this.toastService.toast(`Mensaje no verificado para el estudiante: '${(await this.db.getChild(data.c)).name}'`)
+      let child = await this.db.getChild(data.c);
+      this.toastService.toast("toast.msgnotverified", {name: child.name});
     }
   }
 
@@ -164,9 +165,9 @@ export class PairingService {
 
       await this.db.setChild(child);
 
-      this.toastService.toast("Actualización con éxito")
+      this.toastService.toast("toast.successupdate")
     } else {
-      this.toastService.toast(`Mensaje no verificado para el estudiante: '${child.name}'`)
+      this.toastService.toast("toast.msgnotverified", {name: child.name});
     }
   }
 }

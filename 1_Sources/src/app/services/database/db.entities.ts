@@ -44,9 +44,9 @@ export function getMoodStatus(val: string) {
 
 export enum PooType {
     NORMAL = "normal",
-    BLANDA = "blanda",
-    DIARREA = "diarrea",
-    DURA = "dura"
+    BLANDA = "soft",
+    DIARREA = "diarrhea",
+    DURA = "hard"
 }
 
 export function getpooType(val: string): PooType {
@@ -64,9 +64,9 @@ export function getpooType(val: string): PooType {
 }
 
 export enum RatingVal {
-    MAL = "mal",
-    BIEN = "bien",
-    MUY_BIEN = "muybien"
+    GOOD = "good",
+    REGULAR = "regular",
+    BAD = "bad"
 }
 
 

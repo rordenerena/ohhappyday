@@ -1,4 +1,3 @@
-import { ToastService } from './../../../services/toast.service';
 import { RatingVal } from './../../../services/database/db.entities';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
@@ -14,7 +13,7 @@ export class RatingComponent implements OnInit {
   @Output() onChange: EventEmitter<RatingVal> = new EventEmitter<RatingVal>();
   maxRatings = [];
 
-  constructor(private toastService: ToastService) { }
+  constructor() { }
 
   getClass(item: any) {
     return (item == this.value) ? `selected-${item}` : "unselected";
@@ -30,12 +29,6 @@ export class RatingComponent implements OnInit {
         }
         this.onChange.emit(this.value);
       }
-    }
-  }
-
-  toast(msg: string) {
-    if(this.viewer) {
-      this.toastService.toast(msg);
     }
   }
 

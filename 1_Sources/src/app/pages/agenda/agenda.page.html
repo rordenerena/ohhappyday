@@ -6,7 +6,9 @@
       <ion-back-button defaultHref="/students"></ion-back-button>
     </ion-buttons>
 
-    <ion-title>Agenda de {{entity.name}}</ion-title>
+    <ion-title>
+      <div translate [translateParams]="{name: entity.name }">agenda.title</div>
+    </ion-title>
 
     <ion-buttons slot="end">
       <ion-button (click)="toProfile()">

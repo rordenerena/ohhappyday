@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { MenuComponent } from './../../components/agenda/menu/menu.component';
 import { ComponentsModule } from './../../components/components.module';
 import { NgModule } from '@angular/core';
@@ -17,7 +18,8 @@ import { ProfileChildPage } from './profile-child.page';
     IonicModule,
     ProfileChildPageRoutingModule,
     ComponentsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule
   ],
   declarations: [ProfileChildPage],
   entryComponents: [MenuComponent]

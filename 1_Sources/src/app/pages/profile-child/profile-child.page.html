@@ -5,7 +5,7 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
 
-    <ion-title style="text-align: center;">{{ title }}</ion-title>
+    <ion-title style="text-align: center;">{{ getTitle() }}</ion-title>
 
     <ion-buttons slot="end">
       <ion-button (click)="showMenu($event)">
@@ -30,7 +30,7 @@
             </ion-col>
             <ion-col>
               <ion-item>
-                <ion-label position="floating">Nombre</ion-label>
+                <ion-label position="floating">{{'field.name' | translate}}</ion-label>
                 <ion-input class="ion-text-capitalize" formControlName="name"></ion-input>
               </ion-item>
             </ion-col>
@@ -45,7 +45,7 @@
             </ion-col>
             <ion-col>
               <ion-item>
-                <ion-label position="floating">F. Nacimiento</ion-label>
+                <ion-label position="floating">{{'field.birthdate' | translate}}</ion-label>
                 <app-datepicker formControlName="birthdate" [arrows]="false" [align]="'left'"></app-datepicker>
               </ion-item>
             </ion-col>
@@ -53,9 +53,9 @@
         </ion-grid>
       </div>
     </div>
-    <div class="childFollowers" *ngIf="isTeacher">
+    <div class="childFollowers" *ngIf="isTeacher=== undefined || isTeacher">
       <ion-list>
-        <ion-list-header>Familiares</ion-list-header>
+        <ion-list-header>{{'field.familiars' | translate}}</ion-list-header>
         <ion-item *ngFor="let follower of entity.followers">
           <ion-label>
             <h2>{{follower.name}} ({{follower.relationship}})</h2>
@@ -63,7 +63,7 @@
             <p>{{follower.mail}}</p>
           </ion-label>
           <ion-buttons>
-            <ion-button *ngIf="follower.push" (click)="toastService.toast('Familiar verificado')">
+            <ion-button *ngIf="follower.push" (click)="toastService.toast('toast.familiarverified')">
               <ion-icon style="color: gray" name="checkmark-circle-outline"></ion-icon>
             </ion-button>
             <ion-button (click)="requestSendInvitation(follower)">
@@ -77,10 +77,10 @@
       </ion-list>
     </div>
 
-    <div *ngIf="!isTeacher">
-      <h5>Información adicional</h5>
+    <div *ngIf="isTeacher !== undefined && !isTeacher">
+      <h5>{{'field.extrainfo' | translate}}</h5>
       <ion-list>
-        <ion-list-header>Educador</ion-list-header>
+        <ion-list-header>{{'field.teacher' | translate}}</ion-list-header>
         <ion-item>
           <ion-icon slot="start" name="text-outline"></ion-icon>
           <ion-label>{{teacher.name}}</ion-label>
@@ -92,7 +92,7 @@
       </ion-list>
 
       <ion-list>
-        <ion-list-header>Centro educacional</ion-list-header>
+        <ion-list-header>{{'field.centre' | translate}}</ion-list-header>
         <ion-item>
           <ion-icon slot="start" name="text-outline"></ion-icon>
           <ion-label>{{centre.name}}</ion-label>
@@ -116,7 +116,7 @@
 
     <!-- BUTTONS -->
 
-    <ion-fab *ngIf="isTeacher" vertical="bottom" horizontal="end" slot="fixed" (click)="addFollower()">
+    <ion-fab *ngIf="isTeacher=== undefined || isTeacher" vertical="bottom" horizontal="end" slot="fixed" (click)="addFollower()">
       <ion-fab-button [disabled]="!formData.valid">
         <ion-icon name="person-add-outline"></ion-icon>
       </ion-fab-button>

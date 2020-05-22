@@ -79,7 +79,7 @@ export class ScanqrPage implements OnInit {
       child = await this.pairingService.registerChild(json);
       console.log("Hijo registrado", child);
       this.pairingService.response(await this.db.getFollower(), child);
-      this.toastService.toast("Hijo registrado");
+      this.toastService.toast("toast.childregistered");
       this.goToStudents(child);
     } catch (err) {
       this.toastService.toast(err);

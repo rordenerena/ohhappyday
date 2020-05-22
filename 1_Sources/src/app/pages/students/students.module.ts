@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { MenuComponent } from './../../components/agenda/menu/menu.component';
 import { ComponentsModule } from './../../components/components.module';
 import { NgModule } from '@angular/core';
@@ -16,7 +17,8 @@ import { StudentsPage } from './students.page';
     FormsModule,
     IonicModule,
     StudentsPageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    TranslateModule
   ],
   declarations: [StudentsPage],
   entryComponents: [

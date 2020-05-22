@@ -1,3 +1,5 @@
+import { TranslateService } from '@ngx-translate/core';
+import { TranslateConfigService } from './services/translate-config.service';
 import { ProfileType } from './services/database/db.entities';
 import { Router } from '@angular/router';
 import { DbService } from './services/database/db.service';
@@ -21,9 +23,14 @@ export class AppComponent {
     private statusBar: StatusBar,
     private oneSignalService: OneSignalService,
     private db: DbService,
-    private router: Router
+    private router: Router,
+    public translate: TranslateService,
+    private translateConfig: TranslateConfigService
   ) {
     this.initializeApp();
+    let lang = "en";//this.translateConfig.getDefaultLanguage();
+    this.translate.setDefaultLang(lang);
+    this.translate.use(lang);
   }
 
   async route() {

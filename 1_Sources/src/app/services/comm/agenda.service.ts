@@ -66,7 +66,7 @@ export class AgendaService {
           await this.db.setAgenda(agenda, child.teacher);
           this.router.navigate(['/viewer'], { queryParams: { child: child.index, day: agenda.day } });
         } else {
-          this.toastService.toast(`Mensaje no verificado para el estudiante: '${child.name}'`)
+          this.toastService.toast("toast.msgnotverified", {name: child.name});
         }
 
       }

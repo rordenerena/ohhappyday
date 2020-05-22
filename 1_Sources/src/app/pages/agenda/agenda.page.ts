@@ -231,7 +231,7 @@ export class AgendaPage implements OnInit {
    */
   sendAgenda() {
     this.agendaService.sendAgenda(this.agenda, this.agendaItem, this.entity);
-    this.toastService.toast("Agenda enviada a familiares");
+    this.toastService.toast("toast.agendasend");
   }
 
   /**
@@ -240,11 +240,11 @@ export class AgendaPage implements OnInit {
    */
   async showMenu(ev: any) {
     let options = {
-      "profile-child": "Perfil del alumno",
-      "settings":"Preferencias"
+      "profile-child": "menu.profile-child",
+      "settings":"menu.settings"
     };
     if (!environment.production) {
-      options["viewer"] = "DEV: Visor de Follower";
+      options["viewer"] = "menu.dev.viewer";
     }
     const popover = await this.popoverController.create({
       component: MenuComponent,

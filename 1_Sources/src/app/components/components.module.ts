@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { RatingComponent } from './agenda/rating/rating.component';
 import { CommentsComponent } from './agenda/comments/comments.component';
 import { DayeventComponent } from './agenda/dayevent/dayevent.component';
@@ -17,7 +18,8 @@ import { NgModule } from '@angular/core';
     imports: [
         CommonModule,
         IonicModule,
-        Ionic4DatepickerModule
+        Ionic4DatepickerModule,
+        TranslateModule
     ],
     declarations: [
         ProfilePictureComponent, 

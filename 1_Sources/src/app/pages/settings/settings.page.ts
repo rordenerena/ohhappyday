@@ -28,12 +28,12 @@ export class SettingsPage implements OnInit {
     if (this.isTeacher) {
       await this.oneSignalService.checkToken(true);
       await this.pairingService.reInvite();
-      this.toastService.toast(`Identificadores vigentes enviados a todos los familiares de alumnos`);
+      this.toastService.toast(`toast.tupdatecomm`);
     } else {
       (await this.db.getChildrens()).forEach(async element => {
         this.pairingService.updateResponse(await this.db.getFollower(), element);
       });
-      this.toastService.toast("Enviados identificadores de comunicación")
+      this.toastService.toast("toast.fupdatecomm")
     }
 
   }

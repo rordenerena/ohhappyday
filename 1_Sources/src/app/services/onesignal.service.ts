@@ -85,9 +85,9 @@ export class OneSignalService {
       }
       if(retry) {
         if(!environment.production) {
-          this.toastService.toast(`Recibidos identificadores Push: ${userInfo.push.id}`);
+          this.toastService.toast(`toast.commfetchcustom`, { name: userInfo.push.id});
         } else {
-          this.toastService.toast(`Recibidos identificadores Push`);
+          this.toastService.toast(`toast.commfetch`);
         }
       }
       await this.db.setUserBase(userInfo);

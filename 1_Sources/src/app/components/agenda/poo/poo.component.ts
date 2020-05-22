@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Poo } from '../../../services/database/db.entities';
 import { Component, OnInit, Input, Output, EventEmitter, forwardRef } from '@angular/core';
@@ -24,7 +25,7 @@ export class PooComponent implements OnInit, ControlValueAccessor {
   @Output('onChange') onChange: EventEmitter<Poo> = new EventEmitter<Poo>();
   nonav: any;
 
-  constructor() { }
+  constructor(private translate: TranslateService) { }
 
   ngOnInit() { }
 
@@ -70,7 +71,8 @@ export class PooComponent implements OnInit, ControlValueAccessor {
   }
 
   getValueType() {
-    return (`${this.value.type}` !== "null" && `${this.value.type}` !== "" && `${this.value.type}` !== "0") ? this.value.type : '';
+    let type = (`${this.value.type}` !== "null" && `${this.value.type}` !== "" && `${this.value.type}` !== "0") ? this.value.type : '';
+    return this.translate.instant(`poo.${type}`);
   }
 
   showPooViewer() {

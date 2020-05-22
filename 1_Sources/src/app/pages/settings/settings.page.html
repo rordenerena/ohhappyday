@@ -5,7 +5,7 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
 
-    <ion-title>Preferencias</ion-title>
+    <ion-title>{{'settings.title' | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -18,8 +18,8 @@
         <img src="assets/settings/actualizar2.svg">
       </ion-avatar>
       <ion-label>
-        <h2>IDs de comunicación</h2>
-        <p>Recuperar IDs de comunicación</p>
+        <h2>{{'field.commid' | translate}}</h2>
+        <p>{{'field.commid.fetch' | translate}}</p>
       </ion-label>
     </ion-item>
     <ion-item (click)="resend()" class="ion-activatable ripple-parent">
@@ -29,8 +29,8 @@
       </ion-avatar>
       <ion-label>
         <!-- <h2>IDs de comunicación</h2> -->
-        <p *ngIf="isTeacher" >Actualizar y distribuir a todos los familiares</p>
-        <p *ngIf="!isTeacher">Actualizar y distribuir a educadores</p>
+        <p *ngIf="isTeacher" >{{'field.commid.updatet' | translate}}</p>
+        <p *ngIf="!isTeacher">{{'field.commid.updatef' | translate}}</p>
       </ion-label>
     </ion-item>
     <ion-item routerLink="/about">
@@ -38,8 +38,8 @@
         <img src="assets/settings/pregunta.svg">
       </ion-avatar>
       <ion-label>
-        <h2>Acerca de</h2>
-        <p>Licencia, librerías y enlaces</p>
+        <h2>{{ 'pages.about' | translate }}</h2>
+        <p>{{ 'about-desc' | translate }}</p>
       </ion-label>
     </ion-item>
   </ion-list>

@@ -8,17 +8,6 @@
       </ion-button>
     </ion-col>
     <ion-col>
-      <!-- <ion-datetime displayFormat="DDDD DD/MM/YYYY" 
-                placeholder="Fecha" 
-                #myPicker
-                style="text-align: center;"
-                [value]="current"
-                dayNames="Lunes, Martes, Miércoles, Jueves, Viernes, Sábado, Domingo"
-                monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"
-                (ionChange)="updateCurrent(myPicker.value)">
-              </ion-datetime> -->
-  <!-- <ion-input type="date" [value]="current"></ion-input> -->
-
   <ion-input [ngStyle]="{'text-align': align}" [disabled]="disabled" readonly [(ngModel)]="value"
   [liIonic4Datepicker]="datePickerObj"
   (ionChange)="changeDp($event)">

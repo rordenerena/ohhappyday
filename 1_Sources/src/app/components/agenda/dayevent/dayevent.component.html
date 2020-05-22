@@ -1,10 +1,10 @@
 <div *ngIf="!viewer" >
   <ion-item color="primary">
-    <ion-label position="floating" color="light">Evento del día</ion-label>
+    <ion-label position="floating" color="light">{{ 'dayevent' | translate }}</ion-label>
     <ion-input maxlength="100" [value]="value.title" (ionChange)="setTitle($event)"></ion-input>
   </ion-item>
   <ion-item color="primary">
-    <ion-label position="floating" color="light">Descripción</ion-label>
+    <ion-label position="floating" color="light">{{ 'description' | translate }}</ion-label>
     <ion-textarea maxlength="400" autoGrow [value]="value.description" (ionChange)="setDescription($event)"></ion-textarea>
   </ion-item>
 </div>

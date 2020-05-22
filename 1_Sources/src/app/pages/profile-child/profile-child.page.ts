@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { CentreInfo, Teacher, ChildInfoFollower } from './../../services/database/db.entities';
 import { OneSignalService } from './../../services/onesignal.service';
 import { ChildManagerService } from './../../services/comm/childmanager.service';
@@ -38,7 +39,8 @@ export class ProfileChildPage implements OnInit {
     private popoverController: PopoverController,
     private pairingService: PairingService,
     private onesignal: OneSignalService,
-    private changeDetector: ChangeDetectorRef) {
+    private changeDetector: ChangeDetectorRef,
+    private translate: TranslateService) {
     this.updateForm();
     this.db.getProfileType().then( type => {
       this.isTeacher = type === ProfileType.TEACHER;
@@ -52,6 +54,15 @@ export class ProfileChildPage implements OnInit {
         }
       }
     })
+  }
+
+  getTitle() {
+    console.log("Title:", this.title);
+    if(this.title === "child.title" ) {
+      return this.translate.instant(this.title);
+    } else {
+      return this.translate.instant('child.titlecustom', {name: this.title});
+    }
   }
 
   /**
@@ -83,7 +94,7 @@ export class ProfileChildPage implements OnInit {
     let recovered = await this.db.getChild(index);
     recovered['followers'] = recovered['followers'] ? recovered['followers'] : [];
     this.entity = recovered ? <ChildInfoTeacher>recovered : this.entity;
-    this.title = `Perfil de ${this.entity.name}`;
+    this.title = `${this.entity.name}`;
     console.log(this.entity);
     this.updateForm();
   }
@@ -97,10 +108,10 @@ export class ProfileChildPage implements OnInit {
       if (params.child) {
         await this.loadEntity(params.child);
       } else {
-        this.title = "Nuev@ niñ@";
+        this.title = "child.title";
       }
 
-      if(!this.isTeacher) {
+      if(this.isTeacher !== undefined && !this.isTeacher) {
         this.centre = await this.db.getCentreInfo();
         this.teacher = ( <ChildInfoFollower><unknown>this.entity).teacher;
       }
@@ -218,8 +229,8 @@ export class ProfileChildPage implements OnInit {
    */
   async showMenu(ev: any) {
     let options = {
-      "delete-child": "Eliminar alumno",
-      "settings": "Preferencias"
+      "delete-child": "menu.delete-student",
+      "settings": "menu.settings"
       // "about": "Acerca de"
     };
     const popover = await this.popoverController.create({

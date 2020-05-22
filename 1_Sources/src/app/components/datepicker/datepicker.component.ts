@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit, Input, Output, EventEmitter, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -25,9 +26,6 @@ export class DatepickerComponent implements OnInit, ControlValueAccessor {
   @Input() align: string = "center";
   @Input() viewer: boolean = false;
   @Output() onChange : EventEmitter<string> = new EventEmitter<string>();
-
-
-  months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
   
   // https://www.logisticinfotech.com/blog/ionic4-datepicker-component/
   datePickerObj: any = {
@@ -47,8 +45,34 @@ export class DatepickerComponent implements OnInit, ControlValueAccessor {
     } // Default {}
   };
 
-  constructor() { 
-    
+  constructor(private translate: TranslateService) { 
+      let lang = this.translate.getBrowserLang();
+      this.datePickerObj.momentLocale = lang;
+      this.datePickerObj.monthsList = [
+        this.translate.instant('dp.january'),
+        this.translate.instant('dp.february'),
+        this.translate.instant('dp.march'),
+        this.translate.instant('dp.april'),
+        this.translate.instant('dp.may'),
+        this.translate.instant('dp.june'),
+        this.translate.instant('dp.july'),
+        this.translate.instant('dp.august'),
+        this.translate.instant('dp.september'),
+        this.translate.instant('dp.october'),
+        this.translate.instant('dp.november'),
+        this.translate.instant('dp.december')
+      ]
+      this.datePickerObj.weekList = [
+        this.translate.instant('dp.monday'),
+        this.translate.instant('dp.tuesday'),
+        this.translate.instant('dp.wednesday'),
+        this.translate.instant('dp.thursday'),
+        this.translate.instant('dp.friday'),
+        this.translate.instant('dp.saturday'),
+        this.translate.instant('dp.sunday')
+      ]
+      this.datePickerObj.closeLabel = this.translate.instant('dialogs.close');
+      this.datePickerObj.mondayFirst = this.translate.instant('dp.monday-first') === "true";
   }
 
   writeValue(value: any): void {

@@ -2,7 +2,7 @@
   <ion-thumbnail class="logo">
     <img src="assets/logo.png" />
   </ion-thumbnail>
-  <ion-button (click)="toTeacher()" expand="block">Educadores</ion-button>
-  <ion-button (click)="toViewer()"  color="light" expand="block">Padres</ion-button>
-  <ion-button *ngIf="!env.production"  (click)="autoConfig()"  color="light" expand="block">AutoConfig Educador</ion-button>
+  <ion-button (click)="toTeacher()" expand="block">{{'init.teacher'|translate}}</ion-button>
+  <ion-button (click)="toViewer()"  color="light" expand="block">{{'init.family'|translate}}</ion-button>
+  <ion-button *ngIf="!env.production"  (click)="autoConfig()"  color="light" expand="block">{{'init.autoconfig'|translate}}</ion-button>
 </ion-content>
