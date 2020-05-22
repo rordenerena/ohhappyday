@@ -28,7 +28,7 @@ export class AppComponent {
     private translateConfig: TranslateConfigService
   ) {
     this.initializeApp();
-    let lang = "en";//this.translateConfig.getDefaultLanguage();
+    let lang = this.translateConfig.getDefaultLanguage();
     this.translate.setDefaultLang(lang);
     this.translate.use(lang);
   }

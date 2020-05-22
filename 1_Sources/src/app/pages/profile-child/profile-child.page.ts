@@ -171,14 +171,14 @@ export class ProfileChildPage implements OnInit {
   async removeFollower(fdel: Follower) {
 
     const alert = await this.alertController.create({
-      header: `Borrar a ${fdel.name} (${fdel.relationship})`,
-      message: '¿Está seguro?',
+      header: this.translate.instant('removefollower.header', {name: fdel.name, relationship: fdel.relationship}),
+      message: this.translate.instant('removefollower.message'),
       buttons: [
         {
-          text: 'Cancelar',
+          text: this.translate.instant('dialogs.cancel'),
           role: 'cancel'
         }, {
-          text: 'Borrar',
+          text: this.translate.instant('dialogs.delete'),
           cssClass: 'danger',
           handler: async () => {
             this.entity.followers = this.entity.followers.filter((value) => {
@@ -203,14 +203,14 @@ export class ProfileChildPage implements OnInit {
    */
   async requestSendInvitation(follower: Follower) {
     const alert = await this.alertController.create({
-      header: "Invitación",
-      subHeader: `¿Enviar invitación a ${follower.name}?`,
+      header: this.translate.instant('request-send-invitation.header'),
+      subHeader: this.translate.instant('request-send-invitation.message', {name: follower.name}),
       buttons: [
         {
-          text: 'No',
+          text: this.translate.instant('dialogs.no'),
           role: 'cancel',
         }, {
-          text: 'Sí',
+          text: this.translate.instant('dialogs.yes'),
           handler: async () => {
             let teacher = await this.db.getTeacher();
             let centre = await this.db.getCentreInfo();
@@ -262,14 +262,14 @@ export class ProfileChildPage implements OnInit {
    */
   async deleteChild() {
     const alert = await this.alertController.create({
-      header: `Borrar a ${this.entity.name}`,
-      message: '¿Está seguro?',
+      header: this.translate.instant('delete-child.header', {name: this.entity.name}),
+      message: this.translate.instant('delete-child.message'),
       buttons: [
         {
-          text: 'Cancelar',
+          text: this.translate.instant('dialogs.cancel'),
           role: 'cancel'
         }, {
-          text: 'Borrar',
+          text: this.translate.instant('dialogs.delete'),
           cssClass: 'danger',
           handler: async () => {
             let ptype = await this.db.getProfileType();

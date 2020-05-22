@@ -4,7 +4,22 @@
         "ok": "Ok",
         "save": "Save",
         "confirm": "Confirm",
-        "close": "Close"
+        "close": "Close",
+        "delete": "Delete",
+        "yes": "Yes",
+        "no": "No"
+    },
+    "removefollower": {
+        "header": "Delete {{name}} ({{relationship}})",
+        "message": "¿Are you sure?"
+    },
+    "delete-child": {
+        "header": "Delete {{name}}",
+        "message": "¿Are you sure?"
+    },
+    "request-send-invitation": {
+        "header": "Invitation",
+        "message": "¿Send invitation to {{name}}?"
     },
     "pages": {
         "about": "About",
