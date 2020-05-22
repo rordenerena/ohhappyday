@@ -54,6 +54,11 @@ export class DbService {
   async getProfileType(): Promise<ProfileType> {
     return await this.db.get(Keys.PROFILE);
   }
+
+  async isTeacher() {
+    return await this.getProfileType() === ProfileType.TEACHER;
+  }
+
   async getInitialPage(): Promise<string> {
     if(await this.isConfigured()) {
       return (await this.getProfileType() == ProfileType.TEACHER) ? '/students' : '/viewer';

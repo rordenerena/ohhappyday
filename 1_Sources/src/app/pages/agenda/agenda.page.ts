@@ -241,7 +241,7 @@ export class AgendaPage implements OnInit {
   async showMenu(ev: any) {
     let options = {
       "profile-child": "Perfil del alumno",
-      "about": "Acerca de"
+      "settings":"Preferencias"
     };
     if (!environment.production) {
       options["viewer"] = "DEV: Visor de Follower";
@@ -255,16 +255,18 @@ export class AgendaPage implements OnInit {
 
     const { data } = await popover.onDidDismiss();
 
-    switch (data.op) {
-      case "profile-child":
-        this.toProfile();
-        break;
-      case "about":
-        this.router.navigate(['/about']);
-        break;
-      case "viewer":
-        this.router.navigate(['/viewer'], { queryParams: { child: this.entity.index, day: this.agenda.day } });
-        break;
+    if(data && data.op) {
+      switch (data.op) {
+        case "profile-child":
+          this.toProfile();
+          break;
+        case "viewer":
+          this.router.navigate(['/viewer'], { queryParams: { child: this.entity.index, day: this.agenda.day } });
+          break;
+        default:
+            this.router.navigate([`/${data.op}`]);
+          break;
+      }
     }
   }
 

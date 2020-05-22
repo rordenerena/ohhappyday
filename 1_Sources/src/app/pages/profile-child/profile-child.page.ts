@@ -1,3 +1,4 @@
+import { CentreInfo, Teacher, ChildInfoFollower } from './../../services/database/db.entities';
 import { OneSignalService } from './../../services/onesignal.service';
 import { ChildManagerService } from './../../services/comm/childmanager.service';
 import { DbService } from '../../services/database/db.service';
@@ -24,6 +25,8 @@ export class ProfileChildPage implements OnInit {
   title: string = '';
   formHasChanged: Boolean = false;
   isTeacher: boolean;
+  centre: CentreInfo;
+  teacher: Teacher;
 
   constructor(private router: Router,
     private formBuilder: FormBuilder,
@@ -95,6 +98,11 @@ export class ProfileChildPage implements OnInit {
         await this.loadEntity(params.child);
       } else {
         this.title = "Nuev@ niñ@";
+      }
+
+      if(!this.isTeacher) {
+        this.centre = await this.db.getCentreInfo();
+        this.teacher = ( <ChildInfoFollower><unknown>this.entity).teacher;
       }
 
       if(params.confirmSendPairing) {
@@ -211,8 +219,8 @@ export class ProfileChildPage implements OnInit {
   async showMenu(ev: any) {
     let options = {
       "delete-child": "Eliminar alumno",
-      "refresh-push-token": "Actualizar Push IDs",
-      "about": "Acerca de"
+      "settings": "Preferencias"
+      // "about": "Acerca de"
     };
     const popover = await this.popoverController.create({
       component: MenuComponent,
@@ -227,11 +235,8 @@ export class ProfileChildPage implements OnInit {
         case "delete-child":
           this.deleteChild();
           break;
-        case "refresh-push-token":
-          this.onesignal.checkToken(true);
-          break;
-        case "about":
-          this.router.navigate(['/about']);
+        default:
+          this.router.navigate([`/${data.op}`]);
           break;
       }
     }

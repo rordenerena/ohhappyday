@@ -19,8 +19,12 @@
     margin-top: 10px;
 }
 
-ion-list > div {
-    overflow: scroll;
-    height: 60vh;
-    margin-bottom: 60px;
+// ion-list > div {
+//     overflow: scroll;
+//     height: 60vh;
+//     margin-bottom: 60px;
+// }
+
+ion-fab {
+    position: fixed !important;
 }

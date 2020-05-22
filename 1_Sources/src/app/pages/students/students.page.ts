@@ -94,8 +94,9 @@ export class StudentsPage implements OnInit {
       componentProps: {
         "profile-teacher": "Mi perfil",
         "profile-centre": "Centro educacional",
-        "resend-pushIds": "Actualizar IDs de comunicación",
-        "about": "Acerca de"
+        "settings": "Preferencias"
+        // "resend-pushIds": "Actualizar IDs de comunicación",
+        // "about": "Acerca de"
       },
       event: ev
     });
@@ -104,16 +105,7 @@ export class StudentsPage implements OnInit {
     const {data} = await popover.onDidDismiss();
 
     if(data && data.op) {
-      switch(data.op) {
-        case "resend-pushIds":
-          await this.oneSignalService.checkToken(true);
-          await this.pairingService.reInvite();
-          this.toastService.toast(`Identificadores vigentes enviados a todos los familiares de alumnos`);
-          break;
-        default:
-          this.router.navigate([data.op], {queryParams: {status: 'edit'}});
-          break;
-      }
+      this.router.navigate([data.op], {queryParams: {status: 'edit'}});
     }
   }
  

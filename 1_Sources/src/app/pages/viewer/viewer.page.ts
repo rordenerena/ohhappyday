@@ -194,11 +194,8 @@ export class ViewerPage implements OnInit {
   async showMenu(ev: any) {
     let options = {
       "profile-child": `Perfil de ${this.entity.name}`,
-      "profile-teacher": `Perfil del educador`,
-      "profile-centre": `Perfil del centro`,
       "add-children": "Añadir nuevo hij@ (QR)",
-      "sent-pushids": "Reenviar IDs de comunicación",
-      "about": "Acerca de"
+      "settings": "Preferencias"
     };
     if (!environment.production) {
       options["to-agenda"] = "DEV: Ver agenda de profesor";
@@ -211,32 +208,23 @@ export class ViewerPage implements OnInit {
     await popover.present();
 
     const { data } = await popover.onDidDismiss();
-    console.log(data);
-    switch (data.op) {
-      case 'profile-child':
-        this.toProfile();
-        break;
-      case 'profile-teacher':
-        this.router.navigate(['/profile-teacher'], { queryParams: { viewer: true, child: this.entity.index } });
-        break;
-      case 'profile-centre':
-        this.router.navigate(['/profile-centre'], { queryParams: { viewer: true } });
-        break;
-      case 'add-children':
-        this.scan();
-        break;
-      case 'sent-pushids':
-        (await this.db.getChildrens()).forEach(async element => {
-          this.pairingService.updateResponse(await this.db.getFollower(), element);
-        });
-        this.toastService.toast("Enviados identificadores de comunicación")
-        break;
-      case "to-agenda":
-        this.router.navigate(['/agenda'], { queryParams: { child: this.entity.index, day: this.agenda.day } });
-        break;
-      case "about":
-        this.router.navigate(['/about']);
-        break;
+
+    if(data && data.op) {
+      console.log(data);
+      switch (data.op) {
+        case 'profile-child':
+          this.toProfile();
+          break;
+        case 'add-children':
+          this.scan();
+          break;
+        case "to-agenda":
+          this.router.navigate(['/agenda'], { queryParams: { child: this.entity.index, day: this.agenda.day } });
+          break;
+        default:
+          this.router.navigate([`/${data.op}`])
+          break;
+      }
     }
   }
 

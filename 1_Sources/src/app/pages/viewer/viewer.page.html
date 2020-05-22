@@ -47,6 +47,7 @@
     <app-poo [value]="agendaItem.poo" [viewer]="true"></app-poo>
     <app-food [value]="agendaItem.food" [viewer]="true"></app-food>
     <app-comments [value]="agendaItem.comments" [viewer]="true"></app-comments>
+    <div style="height: 60px;width: 100%;"></div>
   </div>
   <div *ngIf="areChilds() && childrens.length > 1" class="pager" >
     <div class="swiper-pagination swiper-pagination-bullets">
@@ -65,6 +66,11 @@
     </div>
     <div class="tablecell"></div>
   </div>
+  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="scan()" >
+    <ion-fab-button>
+      <ion-icon name="scan-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> -->
 </ion-content>
 
 

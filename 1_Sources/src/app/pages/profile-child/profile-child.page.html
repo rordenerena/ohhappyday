@@ -17,7 +17,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form [formGroup]="formData" *ngIf="entity" >
+  <form [formGroup]="formData" *ngIf="entity">
     <div class="childInfo grid-container">
       <div class="item1">
         <app-profile-picture formControlName="picture" [value]="entity.picture"></app-profile-picture>
@@ -46,54 +46,87 @@
             <ion-col>
               <ion-item>
                 <ion-label position="floating">F. Nacimiento</ion-label>
-                <app-datepicker formControlName="birthdate" [arrows]="false" [align]="'left'" ></app-datepicker>
+                <app-datepicker formControlName="birthdate" [arrows]="false" [align]="'left'"></app-datepicker>
               </ion-item>
             </ion-col>
           </ion-row>
         </ion-grid>
       </div>
     </div>
-    <div class="childFollowers" *ngIf="isTeacher"  >
+    <div class="childFollowers" *ngIf="isTeacher">
       <ion-list>
         <ion-list-header>Familiares</ion-list-header>
-        <div>
-          <ion-item *ngFor="let follower of entity.followers">
-            <ion-label>
-              <h2>{{follower.name}} ({{follower.relationship}})</h2>
-              <h3>{{follower.tel}}</h3>
-              <p>{{follower.mail}}</p>
-            </ion-label>
-            <ion-buttons>
-              <ion-button *ngIf="follower.push" (click)="toastService.toast('Familiar verificado')"  >
-                <ion-icon style="color: gray" name="checkmark-circle-outline"></ion-icon>
-              </ion-button>
-              <ion-button (click)="requestSendInvitation(follower)" >
-                <ion-icon name="send-outline"></ion-icon>
-              </ion-button>
-              <ion-button (click)="removeFollower(follower)" >
-                <ion-icon name="trash-outline"></ion-icon>
-              </ion-button>
-            </ion-buttons>
-          </ion-item>
-        </div>
+        <ion-item *ngFor="let follower of entity.followers">
+          <ion-label>
+            <h2>{{follower.name}} ({{follower.relationship}})</h2>
+            <h3>{{follower.tel}}</h3>
+            <p>{{follower.mail}}</p>
+          </ion-label>
+          <ion-buttons>
+            <ion-button *ngIf="follower.push" (click)="toastService.toast('Familiar verificado')">
+              <ion-icon style="color: gray" name="checkmark-circle-outline"></ion-icon>
+            </ion-button>
+            <ion-button (click)="requestSendInvitation(follower)">
+              <ion-icon name="send-outline"></ion-icon>
+            </ion-button>
+            <ion-button (click)="removeFollower(follower)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
       </ion-list>
     </div>
 
+    <div *ngIf="!isTeacher">
+      <h5>Información adicional</h5>
+      <ion-list>
+        <ion-list-header>Educador</ion-list-header>
+        <ion-item>
+          <ion-icon slot="start" name="text-outline"></ion-icon>
+          <ion-label>{{teacher.name}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon slot="start" name="at-outline"></ion-icon>
+          <ion-label>{{teacher.mail}}</ion-label>
+        </ion-item>
+      </ion-list>
+
+      <ion-list>
+        <ion-list-header>Centro educacional</ion-list-header>
+        <ion-item>
+          <ion-icon slot="start" name="text-outline"></ion-icon>
+          <ion-label>{{centre.name}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon slot="start" name="at-outline"></ion-icon>
+          <ion-label>{{centre.mail}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon slot="start" name="call-outline"></ion-icon>
+          <ion-label>{{centre.tel}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon slot="start" name="trail-sign-outline"></ion-icon>
+          <ion-label>{{centre.address}}</ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div style="height: 60px;width: 100%;"></div>
+
+
     <!-- BUTTONS -->
 
-    <ion-fab *ngIf="isTeacher"  vertical="bottom" horizontal="end" slot="fixed" (click)="addFollower()">
-      <ion-fab-button [disabled]="!formData.valid" >
+    <ion-fab *ngIf="isTeacher" vertical="bottom" horizontal="end" slot="fixed" (click)="addFollower()">
+      <ion-fab-button [disabled]="!formData.valid">
         <ion-icon name="person-add-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab>
 
-    <ion-fab vertical="bottom" horizontal="center" slot="fixed" (click)="submit()">
-      <ion-fab-button [disabled]="!formData.valid" *ngIf="!entity.index || formHasChanged">
+    <ion-fab vertical="bottom" horizontal="center" slot="fixed" (click)="submit()"
+      *ngIf="!entity.index || formHasChanged || !formData.valid">
+      <ion-fab-button>
         <ion-icon name="save-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab>
   </form>
-
-
-
 </ion-content>
