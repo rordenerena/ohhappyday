@@ -26,6 +26,12 @@
         "settings": "Preferencias",
         "init": ""
     },
+    "mail":{
+        "invite": {
+            "subject": "[{{centre}}] Bienvenid@ a la agenda digital de su hij@",
+            "body":"<h1>Hola, {{follower}}</h1><br/><p>Soy {{teacher}}, educador de su hij@ {{child}}. Si deseas recibir notificaciones de la agenda diaria, descargue la aplicación 'Oh! Happy Day' de la tienda de aplicaciones de su móvil y escanee el código QR adjunto.</p><br/><p>Si tienes alguna pregunta, escribe al centro en la dirección de correo electrónico <a href='mailto:{{centremail}}'>{{centremail}}</a> e intentaremos resolver todas tus dudas.</p><br/><p>Bienvenid@ a bordo,</p><br/><p>{{centre}}</p>"
+        }
+    },
     "app": "Oh! Happy Day",
     "app.description": "Aplicación para la gestión de alumnos en guarderías y seguimiento por parte de sus familiares",
     "license": "Licencia",
