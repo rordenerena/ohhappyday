@@ -18,8 +18,10 @@
         "message": "¿Are you sure?"
     },
     "request-send-invitation": {
-        "header": "Invitation",
-        "message": "¿Send invitation to {{name}}?"
+        "header": "Pairing",
+        "message": "What pairing method use for '{{name}}'?",
+        "mail": "Pairing mail",
+        "qr": "Show QR code"
     },
     "pages": {
         "about": "About",
@@ -31,6 +33,7 @@
             "body":"<h1>Hi, {{follower}}</h1><br/><p>I'm {{teacher}}, teacher of your child {{child}}. If you wish receive notifications about your child's agenda, download the app 'Oh! Happy Day' from your platform store and scan the attached QR-code,</p><br/><p>If you have any question, please contact with the centre at <a href='mailto:{{centremail}}'>{{centremail}}</a> and we'll try to resolve all your doubts.</p><br/><p>Welcome aboard,</p><br/><p>{{centre}}</p>"
         }
     },
+    "qrcode-pairing": "QR Code for pairing",
     "app": "Oh! Happy Day",
     "app.description": "App for children's daycare and for his parents in order to follow his activity",
     "license": "License",

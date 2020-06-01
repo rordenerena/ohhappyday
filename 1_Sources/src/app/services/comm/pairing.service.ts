@@ -26,6 +26,16 @@ export class PairingService {
     // Nothing TO-DO
   }
 
+  getQRCode(teacher: Teacher, follower: Follower, centre: CentreInfo, child: ChildInfoTeacher) {
+    if (teacher.push) {
+      let obj = ApiInviteObject.encode(teacher, child, follower, centre, this.platform.getPlatform());
+      let qrcode = this.qrCode.genQRCode(obj);
+      return qrcode;
+    } else {
+      this.toastService.toast("toast.fetchcommidagain",{}, 3500);
+    }
+  }
+
   /**
    * Paso 1: Enviar e-mail para crear el hijo en Follower
    */

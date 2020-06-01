@@ -207,15 +207,45 @@ export class ProfileChildPage implements OnInit {
       subHeader: this.translate.instant('request-send-invitation.message', {name: follower.name}),
       buttons: [
         {
-          text: this.translate.instant('dialogs.no'),
-          role: 'cancel',
-        }, {
-          text: this.translate.instant('dialogs.yes'),
+          text: this.translate.instant('request-send-invitation.qr'),
+          handler: async () => {
+            let teacher = await this.db.getTeacher();
+            let centre = await this.db.getCentreInfo();
+            let qrcode = this.pairingService.getQRCode(teacher, follower, centre, this.entity);
+            this.showQRCode(qrcode);
+          }
+        },
+        {
+          text: this.translate.instant('request-send-invitation.mail'),
           handler: async () => {
             let teacher = await this.db.getTeacher();
             let centre = await this.db.getCentreInfo();
             this.pairingService.invite(teacher, follower, centre, this.entity);
           }
+        },
+        {
+          text: this.translate.instant('dialogs.close'),
+          role: 'cancel',
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  /**
+   * Show the QR Code in order to pair familiar
+   * @param follower 
+   */
+  async showQRCode(qrcode: string) {
+    qrcode = qrcode.replace("base64:qrcode.png//","data:image/png;base64, ");
+    const alert = await this.alertController.create({
+      header: this.translate.instant('qrcode-pairing'),
+      message: `<img src="${qrcode}" />`,
+      buttons: [
+        {
+          text: this.translate.instant('dialogs.close'),
+          role: 'cancel',
         }
       ]
     });
