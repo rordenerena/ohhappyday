@@ -2,27 +2,28 @@
 
 enum PooType {
   NORMAL,
-  BLANDA,
-  DIARREA,
-  DURA
+  SOFT,
+  DIARRHEA,
+  HARD
 }
 
 enum Mood {
-  FELIZ,
-  TRSITE,
-  ENFADAD@,
-  CANSAD@,
-  MOLEST@
+  HAPPy,
+  SAD,
+  ANGRY,
+  TIRED,
+  ANNOY
 }
 
 enum RatingVal {
-    MAL,
-    BIEN,
-    MUYBIEN
+  GOOD,
+  REGULAR,
+  BAD
 }
 
 class Index {
-  Number children
+  Number index
+  String uuid
 }
 
 class Event {
@@ -75,41 +76,54 @@ class AesKeys {
   String secureIV
 }
 
-class UserInfo {
-  Number index
-  String uuid
+class Centre extends Index {
+  String name
+  String tel
+  String mail
+}
+
+class UserBase extends Index {
   String name
   String mail
   String picture
   OneSignalKeys push
   AesKeys aes
+  String platform
 }
 
-class Follower extends UserInfo {
+class Follower extends UserBase {
   Number idOnTeacherApp
   String tel
   String relationship
 }
 
-class Teacher extends UserInfo {
+class Teacher extends UserBase {
 
 }
 
-class Centre {
+class ChildInfo extends Index {
   String name
-  String tel
-  String mail
-}
-
-class Child {
-  String name
-  String image
   Date birthdate
-  AgendaItem[] agendaItems
+  String picture
+  Boolean deleted
 }
 
-Event o-- AgendaItem
-Tomorrow o-- AgendaItem
-Poo o-- AgendaItem
-Food o-- AgendaItem
+class ChildInfoTeacher extends ChildInfo {
+  Array<Follower> followers
+}
+
+class ChildInfoFollower extends ChildInfo {
+  Teacher teacher
+  Number indexForTeacher
+}
+
+UserBase *-- OneSignalKeys
+UserBase *-- AesKeys
+
+Agenda *-- Event 
+Agenda *-- AgendaItem 
+
+AgendaItem *-- Tomorrow
+AgendaItem *-- Poo 
+AgendaItem *-- Food 
 @enduml
